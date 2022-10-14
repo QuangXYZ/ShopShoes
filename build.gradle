@@ -1,7 +1,31 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        // Make sure that you have the following two repositories
+        google()  // Google's Maven repository
+
+    }
+    dependencies {
+        // Add the dependency for the Google services Gradle plugin
+        classpath 'com.google.gms:google-services:4.3.13'
+
+    }
+}
+
+
 plugins {
     id 'com.android.application' version '7.2.1' apply false
     id 'com.android.library' version '7.2.1' apply false
+}
+
+allprojects {
+    repositories {
+
+        // Those below repositories have been added to settings.gradlew
+        // Do not add them again here because of build's errors
+        //google()  // Google's Maven repository
+        //jcenter()
+    }
 }
 
 task clean(type: Delete) {

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "862600022736",
+    "project_id": "shopshoes-aa020",
+    "storage_bucket": "shopshoes-aa020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862600022736:android:ac9364e924ea122b536cd5",
+        "android_client_info": {
+          "package_name": "com.example.shopshoes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862600022736-ob9ibdber8ku229b5uukfn7lfctuomqk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shopshoes",
+            "certificate_hash": "e090e7cf4316f91a9fb6013cbb99a8a6a5312e3c"
+          }
+        },
+        {
+          "client_id": "862600022736-lifc3eecdqa6afuhat9gra92viju1gjf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGgrlaEeZNQLgS46IpyapRTzMevbkbcxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862600022736-lifc3eecdqa6afuhat9gra92viju1gjf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
