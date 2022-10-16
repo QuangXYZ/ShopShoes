@@ -1,8 +1,10 @@
-package com.example.shopshoes;
+package com.example.shopshoes.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.shopshoes.R;
 
 public class MainActivity extends AppCompatActivity {
 
