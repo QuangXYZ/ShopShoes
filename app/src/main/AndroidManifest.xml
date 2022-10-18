@@ -33,6 +33,13 @@
         </activity>
         <activity
             android:name=".Activity.MainActivity"
+
+            android:exported="false">
+
+        </activity>
+        <activity android:name=".Admin.AdminHome" />
+        <activity android:name=".Admin.NewProductActivity" />
+        <activity android:name=".Admin.ViewAllProductsActivity" />
             android:exported="false" />
     </application>
 

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ShopShoes</string>
+
+    <string name="nav_admin_home">Home</string>
+    <string name="nav_admin_add_product">AddProduct</string>
+    <string name="nav_admin_logout">Logout</string>
+</resources>
