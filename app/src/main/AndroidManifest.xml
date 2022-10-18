@@ -30,6 +30,9 @@
             android:exported="false">
 
         </activity>
+        <activity android:name=".Admin.AdminHome" />
+        <activity android:name=".Admin.NewProductActivity" />
+        <activity android:name=".Admin.ViewAllProductsActivity" />
     </application>
 
 </manifest>

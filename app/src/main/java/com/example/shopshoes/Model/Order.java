@@ -1,6 +1,6 @@
-package com.android.shoppingzoo.Model;
+package com.example.shopshoes.Model;
 
-import com.android.shoppingzoo.Activity.CartActivity;
+//import com.android.shoppingzoo.Activity.CartActivity;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -99,27 +99,27 @@ public class Order implements Serializable {
         productArrayList.add(product);
     }
 
-    public void addTotal(Product product) {
-        totalPrice = totalPrice + product.getPrice();
-        CartActivity.totalPriceView.setText(new DecimalFormat("##.##").format(totalPrice));
-    }
-
-    public void minusTotal(Product product) {
-        totalPrice = totalPrice - product.getPrice();
-        CartActivity.totalPriceView.setText(new DecimalFormat("##.##").format(totalPrice));
-    }
-
-    public void removeProduct(Product product) {
-        totalPrice = totalPrice - product.getPrice() * product.getQuantityInCart();
-        productArrayList.remove(product);
-        if(totalPrice>0){
-            CartActivity.totalPriceView.setText(new DecimalFormat("##.##").format(totalPrice));
-        }
-        else{
-            CartActivity.totalPriceView.setText(new DecimalFormat("##.##").format(0.00));
-        }
-
-    }
+//    public void addTotal(Product product) {
+//        totalPrice = totalPrice + product.getPrice();
+//        CartActivity.totalPriceView.setText(new DecimalFormat("##.##").format(totalPrice));
+//    }
+//
+//    public void minusTotal(Product product) {
+//        totalPrice = totalPrice - product.getPrice();
+//        CartActivity.totalPriceView.setText(new DecimalFormat("##.##").format(totalPrice));
+//    }
+//
+//    public void removeProduct(Product product) {
+//        totalPrice = totalPrice - product.getPrice() * product.getQuantityInCart();
+//        productArrayList.remove(product);
+//        if(totalPrice>0){
+//            CartActivity.totalPriceView.setText(new DecimalFormat("##.##").format(totalPrice));
+//        }
+//        else{
+//            CartActivity.totalPriceView.setText(new DecimalFormat("##.##").format(0.00));
+//        }
+//
+//    }
 
     public String getStatus() {
         return status;

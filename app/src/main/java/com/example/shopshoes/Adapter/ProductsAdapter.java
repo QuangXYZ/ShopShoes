@@ -1,4 +1,4 @@
-package com.android.shoppingzoo.Adapter;
+package com.example.shopshoes.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,9 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.shoppingzoo.Activity.ProductDetailsActivity;
-import com.android.shoppingzoo.Model.Product;
-import com.android.shoppingzoo.R;
+import com.example.shopshoes.Model.Product;
+import com.example.shopshoes.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
     Activity context;
     boolean isAdmin;
 
-    public ProductsAdapter(List<Product> usersList, Activity context,boolean isAdmin) {
+    public ProductsAdapter(List<Product> usersList, Activity context, boolean isAdmin) {
         this.myJokesList = usersList;
         this.context = context;
         this.isAdmin=isAdmin;
@@ -33,15 +32,15 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
 
     @NonNull
     @Override
-    public ProductsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.single_product_layout, parent, false);
+                .inflate(R.layout.single_product, parent, false);
 
-        return new ProductsAdapter.MyViewHolder(itemView);
+        return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductsAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         Product product=myJokesList.get(position);
 
@@ -54,16 +53,16 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
         holder.name.setText(product.getName());
         holder.price.setText("$"+product.getPrice());
 
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isAdmin){
-                    Intent intent=new Intent(context, ProductDetailsActivity.class);
-                    intent.putExtra("product",product);
-                    context.startActivity(intent);
-                }
-            }
-        });
+//        holder.layout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(!isAdmin){
+//                    Intent intent=new Intent(context, ProductDetailsActivity.class);
+//                    intent.putExtra("product",product);
+//                    context.startActivity(intent);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -79,10 +78,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            layout = itemView.findViewById(R.id.layout);
-            productImg = itemView.findViewById(R.id.category_image);
-            name = itemView.findViewById(R.id.product_brand_name);
-            price = itemView.findViewById(R.id.price_tv);
+            layout = itemView.findViewById(R.id.layout_product);
+            productImg = itemView.findViewById(R.id.category_image_product);
+            name = itemView.findViewById(R.id.product_brand_name_admin);
+            price = itemView.findViewById(R.id.price_tv_product);
         }
     }
 }

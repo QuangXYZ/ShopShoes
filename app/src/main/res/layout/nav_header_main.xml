@@ -24,14 +24,14 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/layout_profile_picture_image_preferred"
+            android:id="@+id/layout_profile_picture_image_preferred_admin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/profile"
             app:civ_border_width="2dp"
             app:civ_border_color="#000"/>
         <ProgressBar
-            android:id="@+id/profile_progress_bar"
+            android:id="@+id/profile_progress_bar_admin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -44,7 +44,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:id="@+id/nav_edit_profile_button"
+            android:id="@+id/nav_edit_profile_button_admin"
             android:layout_gravity="end|bottom"
             android:padding="3dp"
             android:background="@drawable/edit_image_btn"
@@ -53,7 +53,7 @@
 
     </FrameLayout>
     <TextView
-        android:id="@+id/username_drawer"
+        android:id="@+id/username_drawer_admin"
         android:text="User Name"
         android:layout_gravity="center"
         android:textStyle="bold"

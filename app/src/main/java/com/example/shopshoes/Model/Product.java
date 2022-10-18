@@ -1,4 +1,4 @@
-package com.android.shoppingzoo.Model;
+package com.example.shopshoes.Model;
 
 import java.io.Serializable;
 

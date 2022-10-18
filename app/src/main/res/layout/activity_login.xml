@@ -6,32 +6,34 @@
     android:layout_height="match_parent"
     android:background="@color/LoginBackground"
     tools:context=".Activity.LoginActivity">
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
             <androidx.cardview.widget.CardView
                 android:layout_width="35dp"
-                app:cardCornerRadius="10dp"
-                android:elevation="10dp"
+                android:layout_height="35dp"
                 android:layout_gravity="end"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_height="35dp">
+                android:elevation="10dp"
+                app:cardCornerRadius="10dp">
+
                 <ImageView
                     android:id="@+id/manager_portal_btn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:src="@drawable/adminlogin"
-                    android:padding="5dp"
                     android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    android:src="@drawable/adminlogin"
                     android:text="Admin Portal"
                     android:textColor="@color/text_color"
                     android:textStyle="bold" />
@@ -41,8 +43,8 @@
                 android:id="@+id/imageView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginTop="30dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="30dp"
                 android:src="@mipmap/img"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -53,8 +55,8 @@
                 android:id="@+id/usertype_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="8dp"
                 android:text="Login"
@@ -84,8 +86,8 @@
                     android:id="@+id/login_email"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:drawableLeft="@drawable/ic_baseline_lock_24"
                     android:background="@drawable/edittext_bg"
+                    android:drawableLeft="@drawable/ic_baseline_lock_24"
                     android:drawablePadding="10dp"
                     android:hint="Email"
                     android:inputType="textEmailAddress"
@@ -113,15 +115,14 @@
                     android:singleLine="true"
                     android:textColorHint="@color/text_color" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/forget_pass"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_gravity="end"-->
-<!--                    android:text="Forget password?"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"/>-->
-
+                <!--                <TextView-->
+                <!--                    android:id="@+id/forget_pass"-->
+                <!--                    android:layout_marginTop="10dp"-->
+                <!--                    android:layout_gravity="end"-->
+                <!--                    android:text="Forget password?"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"/>-->
 
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -143,27 +144,28 @@
                 android:id="@+id/login_progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:visibility="gone"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:layout_gravity="center"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/login_signup_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+
             <Button
                 android:id="@+id/login_signup_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
-                android:textAllCaps="false"
                 android:background="@android:color/transparent"
                 android:text="Create New Account ?"
+                android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/l1"

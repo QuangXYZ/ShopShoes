@@ -1,8 +1,4 @@
-package com.android.shoppingzoo.Admin;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.example.shopshoes.Admin;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,10 +9,15 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.shoppingzoo.Adapter.ProductsAdapter;
-import com.android.shoppingzoo.Model.Product;
-import com.android.shoppingzoo.Model.Utils;
-import com.android.shoppingzoo.R;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.shopshoes.Adapter.ProductsAdapter;
+import com.example.shopshoes.Model.Product;
+import com.example.shopshoes.Model.Utils;
+import com.example.shopshoes.R;
+import com.example.shopshoes.Model.Product;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +40,7 @@ public class ViewAllProductsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_all_products);
+        setContentView(R.layout.activity_all_products);
 
 
         productArrayList =new ArrayList<Product>();
@@ -79,9 +80,9 @@ public class ViewAllProductsActivity extends AppCompatActivity {
                         noJokeText.setVisibility(View.VISIBLE);
                     }
 
-                    mAdapter = new ProductsAdapter(productArrayList,ViewAllProductsActivity.this,true);
-                    recyclerView.setAdapter(mAdapter);
-                    mAdapter.notifyDataSetChanged();
+//                    mAdapter = new ProductsAdapter(productArrayList,ViewAllProductsActivity.this,true);
+//                    recyclerView.setAdapter(mAdapter);
+//                    mAdapter.notifyDataSetChanged();
                 } else {
                     ArrayList<Product> clone = new ArrayList<>();
                     for (Product element : productArrayList) {
@@ -98,9 +99,9 @@ public class ViewAllProductsActivity extends AppCompatActivity {
                         noJokeText.setVisibility(View.VISIBLE);
                     }
 
-                    mAdapter = new ProductsAdapter(clone,ViewAllProductsActivity.this,true);
-                    recyclerView.setAdapter(mAdapter);
-                    mAdapter.notifyDataSetChanged();
+//                    mAdapter = new ProductsAdapter(clone,ViewAllProductsActivity.this,true);
+//                    recyclerView.setAdapter(mAdapter);
+//                    mAdapter.notifyDataSetChanged();
                 }
             }
             @Override
@@ -151,7 +152,7 @@ public class ViewAllProductsActivity extends AppCompatActivity {
         else{
             recyclerView.setVisibility(View.GONE);
             noJokeText.setVisibility(View.VISIBLE);
-            mAdapter.notifyDataSetChanged();
+//            mAdapter.notifyDataSetChanged();
         }
     }
 
