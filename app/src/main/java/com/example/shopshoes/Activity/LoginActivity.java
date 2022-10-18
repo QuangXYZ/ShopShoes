@@ -8,12 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.shopshoes.Admin.AdminHome;
-import com.example.shopshoes.Admin.NewProductActivity;
+import com.example.shopshoes.Admin.AdminLogin;
 import com.example.shopshoes.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
     private AppCompatButton loginBtn;
+    private ImageView manager_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.login_pass);
         loginBtn = findViewById(R.id.login_btn);
         mAuth = FirebaseAuth.getInstance();
-
+        manager_btn = findViewById(R.id.manager_portal_btn);
 
 
         didNotHaveAcc = findViewById(R.id.login_signup_btn);
@@ -90,6 +90,20 @@ public class LoginActivity extends AppCompatActivity {
                             });
                     };
 
+            }
+        });
+        didNotHaveAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+        manager_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, AdminLogin.class);
+                startActivity(intent);
             }
         });
     }
