@@ -81,10 +81,6 @@ public class User {
         this.gender = gender;
     }
 
-    public boolean isGender() {
-        return gender;
-    }
-
     public String getPassword() {
         return password;
     }
