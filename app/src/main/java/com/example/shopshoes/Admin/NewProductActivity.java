@@ -149,6 +149,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.example.shopshoes.Model.Product;
+import com.example.shopshoes.Model.Utils;
 import com.example.shopshoes.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -169,10 +170,10 @@ import java.text.DateFormat;
 import java.util.Date;
 
 public class NewProductActivity extends AppCompatActivity {
-    String[] categoriesList = {"Select Category", "Baby", "Kids", "Men", "Women"};
-    String[] brandsList = {"Select Brand Name", "Nike", "Adidas", "Levi’s", "Jordan"};
-    String[] sizeTypeList = {"Select Size Type", "Regular", "Plus", "Juniors", "Tall"};
-    String[] sizeList = {"Select Size", "M", "XL", "S", "2XL"};
+    String[] categoriesList = {"Select Category", "sandal", "Shoes"};
+    String[] brandsList = {"Select Brand Name", "Nike", "Adidas"};
+    String[] sizeTypeList = {"Select Size Type", "male", "female"};
+    String[] sizeList = {"Select Size", "34-35", "35", "35-36", "36", "36-37", "37", "37-38", "38", "38-39", "39", "39-40", "40", "40-41", "41", "41-42", "42", "42-43", "43", "43-44", "44", "44-45", "45", "46", "47", "48", "49" };
     Spinner categorySpinner, brandSpinner, sizeTypeSpinner, sizeSpinner;
     String category = "";
     String brand = "";
@@ -183,6 +184,7 @@ public class NewProductActivity extends AppCompatActivity {
     Uri filePath = null;
     StorageReference storageRef;
     FirebaseFirestore firestore;
+    FirebaseFirestore db;
     ImageView uploadPhotoBtn, productImg;
     Button addBtn;
     private String downloadImageUrl = "";
@@ -312,6 +314,7 @@ public class NewProductActivity extends AppCompatActivity {
                     product.setCategory(category);
                     product.setBrand(brand);
                     product.setSizeType(sizeType);
+                    product.setSizeType(size);
                     product.setPrice(Double.parseDouble(price));
                     product.setColor(color);
                     product.setStock(stock);
@@ -343,7 +346,7 @@ public class NewProductActivity extends AppCompatActivity {
         storageRef = FirebaseStorage.getInstance().getReference();
         firestore = FirebaseFirestore.getInstance();
         product = new Product();
-//        Utils.statusBarColor(NewProductActivity.this);
+        Utils.statusBarColor(NewProductActivity.this);
     }
 
     public void goBack(View view) {
@@ -410,6 +413,9 @@ public class NewProductActivity extends AppCompatActivity {
     }
 
     private void SaveInfoToDatabase() {
+        firestore = FirebaseFirestore.getInstance();
+        String key = firestore.collection("Products").document().getId();
+        product.setProductId(key);
         final CollectionReference reference = firestore.collection("Products");
         reference.add(product).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
