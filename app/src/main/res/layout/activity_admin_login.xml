@@ -63,7 +63,7 @@
                 app:layout_constraintVertical_bias="0.263">
 
                 <EditText
-                    android:id="@+id/login_email"
+                    android:id="@+id/Admin_login_email"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/edittext_bg"
@@ -80,7 +80,7 @@
 
 
                 <EditText
-                    android:id="@+id/login_pass"
+                    android:id="@+id/Admin_login_pass"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="20dp"
@@ -97,7 +97,7 @@
 
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/login_btn"
+                    android:id="@+id/Admin_login_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -112,7 +112,7 @@
             </LinearLayout>
 
             <ProgressBar
-                android:id="@+id/login_progress_bar"
+                android:id="@+id/Admin_login_progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

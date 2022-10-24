@@ -16,6 +16,10 @@
         <activity
             android:name=".Admin.UpdateProductActivity"
             android:exported="false" />
+            android:name=".activity_customers_orders"
+            android:exported="false"
+            android:label="@string/title_activity_customers_orders"
+            android:theme="@style/Theme.ShopShoes.NoActionBar" />
         <activity
             android:name=".Admin.AdminHome"
             android:exported="false" />
