@@ -147,7 +147,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-
 import com.example.shopshoes.Model.Product;
 import com.example.shopshoes.Model.Utils;
 import com.example.shopshoes.R;
@@ -161,6 +160,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -173,7 +173,7 @@ public class NewProductActivity extends AppCompatActivity {
     String[] categoriesList = {"Select Category", "sandal", "Shoes"};
     String[] brandsList = {"Select Brand Name", "Nike", "Adidas"};
     String[] sizeTypeList = {"Select Size Type", "male", "female"};
-    String[] sizeList = {"Select Size", "34-35", "35", "35-36", "36", "36-37", "37", "37-38", "38", "38-39", "39", "39-40", "40", "40-41", "41", "41-42", "42", "42-43", "43", "43-44", "44", "44-45", "45", "46", "47", "48", "49" };
+    String[] sizeList = {"Select Size", "34-35", "35", "35-36", "36", "36-37", "37", "37-38", "38", "38-39", "39", "39-40", "40", "40-41", "41", "41-42", "42", "42-43", "43", "43-44", "44", "44-45", "45", "46", "47", "48", "49"};
     Spinner categorySpinner, brandSpinner, sizeTypeSpinner, sizeSpinner;
     String category = "";
     String brand = "";
@@ -188,7 +188,7 @@ public class NewProductActivity extends AppCompatActivity {
     ImageView uploadPhotoBtn, productImg;
     Button addBtn;
     private String downloadImageUrl = "";
-    private EditText nameEt, priceEt, colorEt, stockEt, descriptionEt;
+    private EditText idProduct, nameEt, priceEt, colorEt, stockEt, descriptionEt;
     private ProgressBar progressBar;
     Product product;
     private ProgressDialog loader;
@@ -282,6 +282,7 @@ public class NewProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = nameEt.getText().toString().trim();
+                String id = idProduct.getText().toString().trim();
                 String price = priceEt.getText().toString().trim();
                 String color = colorEt.getText().toString().trim();
                 String stock = stockEt.getText().toString().trim();
@@ -310,11 +311,12 @@ public class NewProductActivity extends AppCompatActivity {
                     descriptionEt.setError("Enter product description");
                     descriptionEt.requestFocus();
                 } else {
+                    product.setProductId(id);
                     product.setName(name);
                     product.setCategory(category);
                     product.setBrand(brand);
                     product.setSizeType(sizeType);
-                    product.setSizeType(size);
+                    product.setSize(size);
                     product.setPrice(Double.parseDouble(price));
                     product.setColor(color);
                     product.setStock(stock);
@@ -337,6 +339,7 @@ public class NewProductActivity extends AppCompatActivity {
         productImg = findViewById(R.id.product_image);
         addBtn = findViewById(R.id.add_btn);
 
+        idProduct = findViewById(R.id.product_id_et);
         nameEt = findViewById(R.id.product_name_et);
         priceEt = findViewById(R.id.price_et);
         colorEt = findViewById(R.id.color_et);
@@ -413,22 +416,58 @@ public class NewProductActivity extends AppCompatActivity {
     }
 
     private void SaveInfoToDatabase() {
-        firestore = FirebaseFirestore.getInstance();
-        String key = firestore.collection("Products").document().getId();
-        product.setProductId(key);
-        final CollectionReference reference = firestore.collection("Products");
-        reference.add(product).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
+        //https://stackoverflow.com/questions/68977581/cant-get-document-id-properly-firestore
+        //https://www.google.com/search?q=Use+document+ID+for+attribute+id+firestore+android&sxsrf=ALiCzsaQL9EHpEjv06yhPpvY1vAg9R2sMg%3A1666539435848&ei=q19VY9GoM8ThseMP_qmxiAI&ved=0ahUKEwiRqs-Y1_b6AhXEcGwGHf5UDCEQ4dUDCA8&uact=5&oq=Use+document+ID+for+attribute+id+firestore+android&gs_lp=Egdnd3Mtd2l6uAED-AEBMgUQIRigATIFECEYoAHCAgoQABhHGNYEGLADwgIHECEYoAEYCsICBBAhGBWQBghIhEpQ-AVY4kZwAXgByAEAkAEAmAG2AaAB8hOqAQQwLjE44gMEIE0YAeIDBCBBGADiAwQgRhgAiAYB&sclient=gws-wiz
+
+        String ID = idProduct.getText().toString().trim();
+        db = FirebaseFirestore.getInstance();
+        DocumentReference docIdRef = db.collection("Products").document(ID);
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Toast.makeText(NewProductActivity.this, "Product exists", Toast.LENGTH_SHORT);
+                    } else {
+                        db.collection("Products").document(ID).set(product);
                         Toast.makeText(NewProductActivity.this, "Add success", Toast.LENGTH_SHORT).show();
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(NewProductActivity.this, "Add fail", Toast.LENGTH_SHORT);
-                    }
-                });
+                } else {
+                    Toast.makeText(NewProductActivity.this, "Failed with: " + task.getException(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+//        final CollectionReference reference = db.collection("Products");
+//        reference.add(product).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Toast.makeText(NewProductActivity.this, "Add success", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(NewProductActivity.this, "Add fail", Toast.LENGTH_SHORT);
+//                    }
+//                });
+//        firestore = FirebaseFirestore.getInstance();
+//        String key = firestore.collection("Products").document().getId();
+//        product.setProductId(key);
+//        final CollectionReference reference = firestore.collection("Products");
+//        reference.add(product).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Toast.makeText(NewProductActivity.this, "Add success", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(NewProductActivity.this, "Add fail", Toast.LENGTH_SHORT);
+//                    }
+//                });
     }
 }
 

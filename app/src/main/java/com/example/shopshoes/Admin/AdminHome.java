@@ -41,10 +41,10 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-//        if (id == R.id.nav_home_admin) {
-//            Intent intent = new Intent(getApplicationContext(), ViewAllProductsActivity.class);
-//            startActivity(intent);
-//        }
+        if (id == R.id.nav_home_admin) {
+            Intent intent = new Intent(getApplicationContext(), ViewAllProductsActivity.class);
+            startActivity(intent);
+        }
         if (id == R.id.nav_add_product) {
             Intent intent = new Intent(getApplicationContext(), NewProductActivity.class);
             startActivity(intent);
