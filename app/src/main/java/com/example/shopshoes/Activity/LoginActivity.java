@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(LoginActivity.this, "Authentication success.",
                                                 Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(LoginActivity.this, AdminHome.class);
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         finish();
 
