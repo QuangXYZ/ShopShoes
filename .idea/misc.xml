@@ -17,9 +17,20 @@
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_main_admin.xml" value="0.17082837891399127" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_main_drawer.xml" value="0.17082837891399127" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_sign_up.xml" value="0.5" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_splash_screen.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/app_bar_main_admin.xml" value="0.17082837891399127" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/content_activity_customers_orders.xml" value="0.17082837891399127" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/content_main_admin.xml" value="0.1" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/fragment_home.xml" value="0.160880195599022" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/fragment_home_list.xml" value="0.16012683313515655" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/nav_header_main.xml" value="0.17082837891399127" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/single_product.xml" value="0.160880195599022" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/menu/activity_admin_main_drawer.xml" value="0.17082837891399127" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/menu/activity_customers_orders.xml" value="0.17082837891399127" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/menu/activity_main_drawer.xml" value="0.5" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/menu/activity_main_drawer_user.xml" value="0.17082837891399127" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1945" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/drawable-v24/button_shape.xml" value="0.1" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/drawable-v24/ic_launcher_background.xml" value="0.1545" />
