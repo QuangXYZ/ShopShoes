@@ -134,7 +134,7 @@
                 android:padding="5dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="Thương hiệu sàn phẩm"/>
+                android:text="Thương hiệu sản phẩm"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
@@ -188,11 +188,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textSize="16sp"
                 android:padding="5dp"
+                android:text="Size sản phẩm"
                 android:textColor="@color/black"
-                android:textStyle="bold"
-                android:text="Size sản phẩm"/>
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:id="@+id/top_size_layout"
                 android:layout_width="match_parent"

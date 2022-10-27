@@ -140,9 +140,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -166,14 +163,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import java.text.DateFormat;
 import java.util.Date;
 
 public class NewProductActivity extends AppCompatActivity {
-    String[] categoriesList = {"Select Category", "sandal", "Shoes"};
-    String[] brandsList = {"Select Brand Name", "Nike", "Adidas"};
-    String[] sizeTypeList = {"Select Size Type", "male", "female"};
-    String[] sizeList = {"Select Size", "34-35", "35", "35-36", "36", "36-37", "37", "37-38", "38", "38-39", "39", "39-40", "40", "40-41", "41", "41-42", "42", "42-43", "43", "43-44", "44", "44-45", "45", "46", "47", "48", "49"};
+    String[] categoriesList = {"", "Dép", "Giày"};
+    String[] brandsList = {"", "Nike", "Adidas"};
+    String[] sizeTypeList = {"", "Nam", "Nữ"};
+    String[] sizeList = {"", "34-35", "35", "35-36", "36", "36-37", "37", "37-38", "38", "38-39", "39", "39-40", "40", "40-41", "41", "41-42", "42", "42-43", "43", "43-44", "44", "44-45", "45", "46", "47", "48", "49"};
     Spinner categorySpinner, brandSpinner, sizeTypeSpinner, sizeSpinner;
     String category = "";
     String brand = "";
@@ -188,7 +187,7 @@ public class NewProductActivity extends AppCompatActivity {
     ImageView uploadPhotoBtn, productImg;
     Button addBtn;
     private String downloadImageUrl = "";
-    private EditText idProduct, nameEt, priceEt, colorEt, stockEt, descriptionEt;
+    private EditText idProductEt, nameEt, priceEt, colorEt, stockEt, descriptionEt;
     private ProgressBar progressBar;
     Product product;
     private ProgressDialog loader;
@@ -282,33 +281,38 @@ public class NewProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = nameEt.getText().toString().trim();
-                String id = idProduct.getText().toString().trim();
+                String id = idProductEt.getText().toString().trim();
                 String price = priceEt.getText().toString().trim();
                 String color = colorEt.getText().toString().trim();
                 String stock = stockEt.getText().toString().trim();
                 String desc = descriptionEt.getText().toString().trim();
                 if (filePath == null) {
-                    Toast.makeText(NewProductActivity.this, "Please select product image", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewProductActivity.this, "Chưa chọn ảnh", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(id)) {
+                    idProductEt.setError("Nhập mã sản phẩm");
+                    idProductEt.requestFocus();
                 } else if (TextUtils.isEmpty(name)) {
-                    nameEt.setError("Enter product name");
+                    nameEt.setError("Nhập tên sản phẩm");
                     nameEt.requestFocus();
-                } else if (category.equals("Select Category")) {
-                    Toast.makeText(NewProductActivity.this, "Select category", Toast.LENGTH_SHORT).show();
-                } else if (brand.equals("Select Brand Name")) {
-                    Toast.makeText(NewProductActivity.this, "Select brand", Toast.LENGTH_SHORT).show();
-                } else if (sizeType.equals("Select Size Type")) {
-                    Toast.makeText(NewProductActivity.this, "Select size", Toast.LENGTH_SHORT).show();
+                } else if (category.equals("")) {
+                    Toast.makeText(NewProductActivity.this, "Chưa chọn thể loại", Toast.LENGTH_SHORT).show();
+                } else if (brand.equals("")) {
+                    Toast.makeText(NewProductActivity.this, "Chưa chọn thương hiệu", Toast.LENGTH_SHORT).show();
+                } else if (sizeType.equals("")) {
+                    Toast.makeText(NewProductActivity.this, "Chưa chọn loại size", Toast.LENGTH_SHORT).show();
+                } else if (size.equals("")) {
+                    Toast.makeText(NewProductActivity.this, "Chưa chọn size", Toast.LENGTH_SHORT).show();
                 } else if (TextUtils.isEmpty(price)) {
-                    priceEt.setError("Enter product price");
+                    priceEt.setError("Nhập giá sản phẩm");
                     priceEt.requestFocus();
                 } else if (TextUtils.isEmpty(color)) {
-                    colorEt.setError("Enter product color");
+                    colorEt.setError("Nhập màu sản phẩm");
                     colorEt.requestFocus();
                 } else if (TextUtils.isEmpty(stock)) {
-                    stockEt.setError("Enter product stock");
+                    stockEt.setError("Nhập số lượng sản phẩm");
                     stockEt.requestFocus();
                 } else if (TextUtils.isEmpty(desc)) {
-                    descriptionEt.setError("Enter product description");
+                    descriptionEt.setError("Nhập nội dung");
                     descriptionEt.requestFocus();
                 } else {
                     product.setProductId(id);
@@ -317,7 +321,7 @@ public class NewProductActivity extends AppCompatActivity {
                     product.setBrand(brand);
                     product.setSizeType(sizeType);
                     product.setSize(size);
-                    product.setPrice(Double.parseDouble(price));
+                    product.setPrice(Integer.parseInt(price));
                     product.setColor(color);
                     product.setStock(stock);
                     product.setDescription(desc);
@@ -339,7 +343,7 @@ public class NewProductActivity extends AppCompatActivity {
         productImg = findViewById(R.id.product_image);
         addBtn = findViewById(R.id.add_btn);
 
-        idProduct = findViewById(R.id.product_id_et);
+        idProductEt = findViewById(R.id.product_id_et);
         nameEt = findViewById(R.id.product_name_et);
         priceEt = findViewById(R.id.price_et);
         colorEt = findViewById(R.id.color_et);
@@ -419,7 +423,7 @@ public class NewProductActivity extends AppCompatActivity {
         //https://stackoverflow.com/questions/68977581/cant-get-document-id-properly-firestore
         //https://www.google.com/search?q=Use+document+ID+for+attribute+id+firestore+android&sxsrf=ALiCzsaQL9EHpEjv06yhPpvY1vAg9R2sMg%3A1666539435848&ei=q19VY9GoM8ThseMP_qmxiAI&ved=0ahUKEwiRqs-Y1_b6AhXEcGwGHf5UDCEQ4dUDCA8&uact=5&oq=Use+document+ID+for+attribute+id+firestore+android&gs_lp=Egdnd3Mtd2l6uAED-AEBMgUQIRigATIFECEYoAHCAgoQABhHGNYEGLADwgIHECEYoAEYCsICBBAhGBWQBghIhEpQ-AVY4kZwAXgByAEAkAEAmAG2AaAB8hOqAQQwLjE44gMEIE0YAeIDBCBBGADiAwQgRhgAiAYB&sclient=gws-wiz
 
-        String ID = idProduct.getText().toString().trim();
+        String ID = idProductEt.getText().toString().trim();
         db = FirebaseFirestore.getInstance();
         DocumentReference docIdRef = db.collection("Products").document(ID);
         docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

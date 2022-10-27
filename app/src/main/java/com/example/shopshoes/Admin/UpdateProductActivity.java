@@ -3,14 +3,16 @@ package com.example.shopshoes.Admin;
 import static android.content.ContentValues.TAG;
 import static android.widget.Toast.LENGTH_SHORT;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,12 +44,16 @@ import com.google.firebase.storage.StorageReference;
 import com.example.shopshoes.databinding.ActivityUpdateProductBinding;
 import com.squareup.picasso.Picasso;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
+import java.util.Map;
+
 public class UpdateProductActivity extends AppCompatActivity {
     ActivityUpdateProductBinding binding;
-    String[] categoriesList = {"Select Category", "sandal", "Shoes"};
-    String[] brandsList = {"Select Brand Name", "Nike", "Adidas"};
-    String[] sizeTypeList = {"Select Size Type", "male", "female"};
-    String[] sizeList = {"Select Size", "34-35", "35", "35-36", "36", "36-37", "37", "37-38", "38", "38-39", "39", "39-40", "40", "40-41", "41", "41-42", "42", "42-43", "43", "43-44", "44", "44-45", "45", "46", "47", "48", "49"};
+    String[] categoriesList = {"", "Dép", "Giày"};
+    String[] brandsList = {"", "Nike", "Adidas"};
+    String[] sizeTypeList = {"", "Nam", "Nữ"};
+    String[] sizeList = {"", "34-35", "35", "35-36", "36", "36-37", "37", "37-38", "38", "38-39", "39", "39-40", "40", "40-41", "41", "41-42", "42", "42-43", "43", "43-44", "44", "44-45", "45", "46", "47", "48", "49"};
     Spinner categorySpinner, brandSpinner, sizeTypeSpinner, sizeSpinner;
     String category = "";
     String brand = "";
@@ -72,7 +78,7 @@ public class UpdateProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
         colRefProducts = db.collection(FirebaseFireStoreConstants.PRODUCTS);
-        getProduct();
+//        getProduct();
 
         binding = ActivityUpdateProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -83,6 +89,7 @@ public class UpdateProductActivity extends AppCompatActivity {
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
         Log.d("UpdateProduct", "category" + product.getCategory());
+
         if (product.getCategory() != null) {
 //            categorySpinner.setSelection(getSpinnerIndex(categorySpinner, product.getCategory()));
             categorySpinner.setSelection(1);
@@ -102,6 +109,7 @@ public class UpdateProductActivity extends AppCompatActivity {
 
         SettingClickListners();
 
+        product = (Product) getIntent().getSerializableExtra("product");
 
         if (product.getPhotoUrl() != null) {
             if (!product.getPhotoUrl().equals("")) {
@@ -109,7 +117,14 @@ public class UpdateProductActivity extends AppCompatActivity {
             }
         }
 
-        binding.productNameUpdate.setText(product.getName());
+        nameEt.setText(product.getName());
+        colorEt.setText(product.getColor());
+        priceEt.setText(String.valueOf(product.getPrice()));
+        stockEt.setText(product.getStock());
+        descriptionEt.setText(product.getDescription());
+
+//        binding.productNameUpdate.setText(product.getName());
+//        categorySpinner.setSelection(getSpinnerIndex(categorySpinner, product.getCategory()));
 //        Log.d("logCategory:", product.getCategory());
 
 
@@ -137,8 +152,6 @@ public class UpdateProductActivity extends AppCompatActivity {
                 Log.e("addOnFailureListener", e.getMessage());
             }
         });
-
-
     }
 
     private void SettingClickListners() {
@@ -197,6 +210,56 @@ public class UpdateProductActivity extends AppCompatActivity {
 
             }
         });
+
+        updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = nameEt.getText().toString().trim();
+                String price = priceEt.getText().toString().trim();
+                String color = colorEt.getText().toString().trim();
+                String stock = stockEt.getText().toString().trim();
+                String desc = descriptionEt.getText().toString().trim();
+
+                if (TextUtils.isEmpty(name)) {
+                    nameEt.setError("Nhập tên sản phẩm");
+                    nameEt.requestFocus();
+                } else if (category.equals("")) {
+                    Toast.makeText(UpdateProductActivity.this, "Chưa chọn thể loại", Toast.LENGTH_SHORT).show();
+                } else if (brand.equals("")) {
+                    Toast.makeText(UpdateProductActivity.this, "Chưa chọn thương hiệu ", Toast.LENGTH_SHORT).show();
+                } else if (sizeType.equals("")) {
+                    Toast.makeText(UpdateProductActivity.this, "Chưa chọn loại size", Toast.LENGTH_SHORT).show();
+                } else if (size.equals("")) {
+                    Toast.makeText(UpdateProductActivity.this, "Chưa chọn size", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(price)) {
+                    priceEt.setError("Nhập giá sản phẩm");
+                    priceEt.requestFocus();
+                } else if (TextUtils.isEmpty(color)) {
+                    colorEt.setError("Nhập màu sản phẩm");
+                    colorEt.requestFocus();
+                } else if (TextUtils.isEmpty(stock)) {
+                    stockEt.setError("Nhập số lượng sản phẩm");
+                    stockEt.requestFocus();
+                } else if (TextUtils.isEmpty(desc)) {
+                    descriptionEt.setError("Nhập nội dung");
+                    descriptionEt.requestFocus();
+                } else {
+
+                    product.setName(name);
+                    product.setCategory(category);
+                    product.setBrand(brand);
+                    product.setSizeType(sizeType);
+                    product.setSize(size);
+                    product.setPrice(Integer.parseInt(price));
+                    product.setColor(color);
+                    product.setStock(stock);
+                    product.setDescription(desc);
+                    updateDataProduct();
+//                    UploadImage();
+                }
+
+            }
+        });
     }
 
     private void initAll() {
@@ -227,6 +290,21 @@ public class UpdateProductActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePath = data.getData();
+            Bitmap bitmap;
+            try {
+                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(filePath));
+                productImg.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private int getSpinnerIndex(Spinner spinner, String value) {
         for (int i = 0; i < spinner.getCount(); i++) {
             if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(value)) {
@@ -236,5 +314,34 @@ public class UpdateProductActivity extends AppCompatActivity {
 
         return 0;
     }
+
+    private void updateDataProduct() {
+        final String docsID = (String) getIntent().getSerializableExtra("productId");
+        db.collection(FirebaseFireStoreConstants.PRODUCTS).document(docsID)
+                .update(
+                        "name", product.getName(),
+                        "category", product.getCategory(),
+                        "brand", product.getBrand(),
+                        "sizeType", product.getSizeType(),
+                        "size", product.getSize(),
+                        "price", product.getPrice(),
+                        "color", product.getColor(),
+                        "stock", product.getStock(),
+                        "description", product.getDescription()
+
+                )
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(UpdateProductActivity.this, "Sửa thông tin thành công", LENGTH_SHORT);
+                    }
+                });
+    }
+
+//    private void updateImage() {
+//        FirebaseFirestore fstore = FirebaseFirestore.getInstance();
+//        StorageReference
+//    }
 }
 //https://github.dev/jirawatee/CloudFirestore-Android
+
