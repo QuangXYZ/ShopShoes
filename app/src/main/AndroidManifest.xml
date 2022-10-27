@@ -14,12 +14,8 @@
         android:theme="@style/Theme.ShopShoes"
         tools:targetApi="31">
         <activity
-            android:name=".CustomerOder"
+            android:name=".Admin.CustomerOder"
             android:exported="false" />
-        <activity
-            android:name=".ui.login.LoginActivitytest"
-            android:exported="false"
-            android:label="@string/title_activity_login_activitytest" />
         <activity
             android:name=".Admin.UpdateProductActivity"
             android:exported="false" />
