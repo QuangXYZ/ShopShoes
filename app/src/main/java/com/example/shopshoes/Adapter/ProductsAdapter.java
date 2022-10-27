@@ -1,5 +1,7 @@
 package com.example.shopshoes.Adapter;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 //import com.example.shopshoes.Activity.ProductDetailsActivity;
+import com.example.shopshoes.Activity.ProductDetailActivity;
 import com.example.shopshoes.Admin.UpdateProductActivity;
 import com.example.shopshoes.Model.Product;
 import com.example.shopshoes.R;
@@ -58,10 +62,19 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent intent=new Intent(context, UpdateProductActivity.class);
-                    intent.putExtra("productId",product.getProductId());
-                    context.startActivity(intent);
+                    if (isAdmin) {
+                        Intent intent = new Intent(context, UpdateProductActivity.class);
+                        intent.putExtra("productId", product.getProductId());
+                        context.startActivity(intent);
+                    }
+                    else {
+                        Intent intent = new Intent(context, ProductDetailActivity.class);
+                        intent.putExtra("productId", product.getProductId());
+                        intent.putExtra("product",product);
+                        context.startActivity(intent);
+                    }
                 }
+
         });
     }
 

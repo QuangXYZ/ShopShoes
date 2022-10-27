@@ -1,14 +1,44 @@
 package com.example.shopshoes.Fragment;
 
+import static android.content.ContentValues.TAG;
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.shopshoes.Adapter.ProductsAdapter;
+import com.example.shopshoes.Admin.ViewAllProductsActivity;
+import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
+import com.example.shopshoes.Model.Product;
+import com.example.shopshoes.Model.Utils;
 import com.example.shopshoes.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +47,16 @@ import com.example.shopshoes.R;
  */
 public class FragmentHome extends Fragment {
 
+    private ProductsAdapter mAdapter;
+    private RecyclerView recyclerView;
+    private ArrayList<Product> productArrayList;
+
+    DatabaseReference myRootRef;
+    private ProgressBar progressBar;
+    private TextView noJokeText;
+    private EditText nameInput;
+    private FirebaseFirestore firestore;
+    FragmentActivity c;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,12 +95,129 @@ public class FragmentHome extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        productArrayList =new ArrayList<Product>();
+        recyclerView =view.findViewById(R.id.product_list);
+        progressBar = view.findViewById(R.id.spin_progress_bar);
+        noJokeText = view.findViewById(R.id.no_product);
+        nameInput = view.findViewById(R.id.name_input);
+        myRootRef = FirebaseDatabase.getInstance().getReference();
+
+        c = getActivity();
+        mAdapter = new ProductsAdapter(productArrayList, c,false);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setLayoutManager(new GridLayoutManager(c.getApplicationContext(), 2));
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+
+
+
+
+        getDataFromFirebase();
+
+
+        searchFunc();
+        return view;
+    }
+
+    private void searchFunc() {
+        nameInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() == 0) {
+                    if(productArrayList.size()!=0){
+                        recyclerView.setVisibility(View.VISIBLE);
+                        noJokeText.setVisibility(View.GONE);
+                    }
+                    else{
+                        recyclerView.setVisibility(View.GONE);
+                        noJokeText.setVisibility(View.VISIBLE);
+                    }
+
+                    mAdapter = new ProductsAdapter(productArrayList,c,true);
+                    recyclerView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    ArrayList<Product> clone = new ArrayList<>();
+                    for (Product element : productArrayList) {
+                        if (element.getName().toLowerCase().contains(s.toString().toLowerCase())) {
+                            clone.add(element);
+                        }
+                    }
+                    if(clone.size()!=0){
+                        recyclerView.setVisibility(View.VISIBLE);
+                        noJokeText.setVisibility(View.GONE);
+                    }
+                    else{
+                        recyclerView.setVisibility(View.GONE);
+                        noJokeText.setVisibility(View.VISIBLE);
+                    }
+
+                    mAdapter = new ProductsAdapter(clone,c,false);
+                    recyclerView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    public void getDataFromFirebase() {
+        progressBar.setVisibility(View.VISIBLE);
+        final int[] counter = {0};
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reference = db.collection(FirebaseFireStoreConstants.PRODUCTS);
+        reference.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot snapshot = task.getResult();
+                            for (QueryDocumentSnapshot document : snapshot) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Product product = new Product();
+                                product = document.toObject(Product.class);
+                                productArrayList.add(product);
+                                counter[0]++;
+                                if (counter[0] == task.getResult().size()) {
+                                    setData();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                                Log.d("ShowEventInfo:", product.toString());
+                            }
+                        } else {
+                            noJokeText.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            Toast.makeText(c ,"Error" + task.getException() , LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void setData() {
+        if(productArrayList.size()>0){
+            recyclerView.setVisibility(View.VISIBLE);
+            noJokeText.setVisibility(View.GONE);
+        }
+        else{
+            recyclerView.setVisibility(View.GONE);
+            noJokeText.setVisibility(View.VISIBLE);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }
