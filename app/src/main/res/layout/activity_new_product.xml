@@ -76,12 +76,22 @@
             android:layout_marginEnd="15dp"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Mã sản phẩm"/>
+
             <EditText
                 android:id="@+id/product_id_et"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/text_input_bg"
-                android:hint="ID product"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:inputType="textPersonName"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
@@ -89,14 +99,24 @@
                 android:singleLine="true"
                 android:textColorHint="@color/text_color"
                 android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Tên sản phẩm"/>
 
             <EditText
                 android:id="@+id/product_name_et"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/text_input_bg"
-                android:hint="Product name"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:inputType="textPersonName"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
@@ -105,11 +125,21 @@
                 android:textColorHint="@color/text_color"
                 android:textSize="16sp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Thể loại sản phẩm"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:visibility="visible"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,11 +153,22 @@
                         />
                 </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Thương hiệu sản phẩm"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:visibility="visible"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -141,11 +182,22 @@
                         />
                 </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Loại size sản phẩm"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:visibility="visible"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -159,12 +211,23 @@
                         />
                 </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:text="Size sản phẩm"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
             <LinearLayout
                 android:id="@+id/top_size_layout"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:visibility="visible"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -179,13 +242,22 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Giá sản phẩm"/>
             <EditText
                 android:id="@+id/price_et"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:drawablePadding="10dp"
-                android:hint="Giá sản phẩm"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:inputType="numberDecimal"
                 android:background="@drawable/text_input_bg"
                 android:paddingStart="10dp"
@@ -195,13 +267,22 @@
                 android:singleLine="true"
                 android:textColorHint="@color/text_color" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Màu sản phẩm"/>
             <EditText
                 android:id="@+id/color_et"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/text_input_bg"
-                android:hint="Màu sản phẩm"
                 android:inputType="textPersonName"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
@@ -210,12 +291,21 @@
                 android:textColorHint="@color/text_color"
                 android:textSize="16sp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Số lượng sản phẩm"/>
             <EditText
                 android:id="@+id/stock_et"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="Số lượng sản phẩm"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:inputType="numberDecimal"
                 android:background="@drawable/text_input_bg"
                 android:paddingStart="10dp"
@@ -226,11 +316,14 @@
                 android:textColorHint="@color/text_color" />
 
             <TextView
-                android:text="Nội dung"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:padding="5dp"
                 android:textColor="@color/black"
-                android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textStyle="bold"
+                android:text="Nội dung"/>
                 <LinearLayout
                     android:layout_margin="5dp"
                     android:layout_width="match_parent"

@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 //import com.example.shopshoes.Activity.ProductDetailsActivity;
@@ -21,6 +20,8 @@ import com.example.shopshoes.Admin.UpdateProductActivity;
 import com.example.shopshoes.Model.Product;
 import com.example.shopshoes.R;
 import com.squareup.picasso.Picasso;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.List;
 
@@ -73,6 +74,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
                         intent.putExtra("product",product);
                         context.startActivity(intent);
                     }
+                    Intent intent=new Intent(context, UpdateProductActivity.class);
+                    intent.putExtra("productId",product.getProductId());
+                intent.putExtra("product",product);
+                    context.startActivity(intent);
                 }
 
         });
