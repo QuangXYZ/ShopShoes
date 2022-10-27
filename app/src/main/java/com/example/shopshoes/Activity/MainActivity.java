@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.shopshoes.Admin.AdminHome;
 import com.example.shopshoes.Admin.NewProductActivity;
+import com.example.shopshoes.Admin.ViewAllProductsActivity;
+import com.example.shopshoes.Fragment.FragmentHome;
 import com.example.shopshoes.Model.User;
 import com.example.shopshoes.R;
 import com.google.android.material.navigation.NavigationView;
@@ -38,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private User user;
     DatabaseReference myRootRef;
     private FirebaseAuth mAuth;
+    private static final int FRAGMENT_HOME = 1;
+    private static final int FRAGMENT_ORDER = 2;
+    private int currentFragment = FRAGMENT_HOME;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +53,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initUI();
 
 
-        ;
+
 
     }
     private void initUI(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("");
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -67,17 +75,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAuth = FirebaseAuth.getInstance();
         UserNameDrawer = hView.findViewById(R.id.username_drawer_admin);
         getProfileData();
+        replaceFagment(new FragmentHome());
 
 
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-//        if (id == R.id.nav_home_admin) {
-//            Intent intent = new Intent(getApplicationContext(), ViewAllProductsActivity.class);
-//            startActivity(intent);
-//        }
+            if (id == R.id.nav_home) {
+                if (currentFragment != FRAGMENT_HOME) {
+                    replaceFagment(new FragmentHome());
+                    currentFragment = FRAGMENT_HOME;
+                }
+            }
         if (id == R.id.nav_add_product) {
+            currentFragment = FRAGMENT_ORDER;
             Intent intent = new Intent(getApplicationContext(), NewProductActivity.class);
             startActivity(intent);
         }
@@ -117,6 +129,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+
         }
+    }
+    private void replaceFagment(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame,fragment);
+        fragmentTransaction.commit();
+
     }
 }
