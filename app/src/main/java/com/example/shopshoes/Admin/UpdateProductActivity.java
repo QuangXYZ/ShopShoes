@@ -29,6 +29,7 @@ import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
 import com.example.shopshoes.Model.Product;
 import com.example.shopshoes.Model.Utils;
 import com.example.shopshoes.R;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,6 +43,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.example.shopshoes.databinding.ActivityUpdateProductBinding;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -254,8 +256,8 @@ public class UpdateProductActivity extends AppCompatActivity {
                     product.setColor(color);
                     product.setStock(stock);
                     product.setDescription(desc);
-                    updateDataProduct();
-//                    UploadImage();
+//                    updateDataProduct();
+                    UploadImage();
                 }
 
             }
@@ -327,8 +329,8 @@ public class UpdateProductActivity extends AppCompatActivity {
                         "price", product.getPrice(),
                         "color", product.getColor(),
                         "stock", product.getStock(),
-                        "description", product.getDescription()
-
+                        "description", product.getDescription(),
+                        "photoUrl", product.getPhotoUrl()
                 )
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -338,10 +340,49 @@ public class UpdateProductActivity extends AppCompatActivity {
                 });
     }
 
-//    private void updateImage() {
-//        FirebaseFirestore fstore = FirebaseFirestore.getInstance();
-//        StorageReference
-//    }
+    private void UploadImage() {
+        if (filePath != null) {
+            progressBar.setVisibility(View.VISIBLE);
+            final StorageReference childRef = storageRef.child("product_images").child(System.currentTimeMillis() + ".jpg");
+            final UploadTask uploadTask = childRef.putFile(filePath);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    String message = e.toString();
+                    Toast.makeText(UpdateProductActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(UpdateProductActivity.this, "Đã tải ảnh...", Toast.LENGTH_SHORT).show();
+                    Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                            if (!task.isSuccessful()) {
+                                throw task.getException();
+                            }
+                            downloadImageUrl = childRef.getDownloadUrl().toString();
+                            return childRef.getDownloadUrl();
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                downloadImageUrl = task.getResult().toString();
+                                Log.d("imagUrl", downloadImageUrl);
+                                product.setPhotoUrl(downloadImageUrl);
+                                updateDataProduct();
+                            }
+                        }
+                    });
+                }
+            });
+
+        } else {
+            Toast.makeText(UpdateProductActivity.this, "Chọn ảnh", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
 //https://github.dev/jirawatee/CloudFirestore-Android
 
