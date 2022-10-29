@@ -14,18 +14,31 @@
         android:theme="@style/Theme.ShopShoes"
         tools:targetApi="31">
         <activity
-
+            android:name=".Admin.UpdateBrandActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.ViewAllBrandActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.NewBrandActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.UpdateCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.ViewAllCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.NewCategoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.ProductDetailActivity"
             android:exported="false"
             android:label="@string/title_activity_product_detail"
             android:theme="@style/Theme.ShopShoes.NoActionBar" />
-
-            android:name=".Admin.CustomerOder"
-            android:exported="false" />
         <activity
             android:name=".Admin.UpdateProductActivity"
             android:exported="false" />
-
         <activity
             android:name=".Admin.UpdateProductActivity"
             android:exported="false" />
