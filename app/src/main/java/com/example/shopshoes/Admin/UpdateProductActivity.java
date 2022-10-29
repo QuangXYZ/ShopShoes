@@ -3,8 +3,10 @@ package com.example.shopshoes.Admin;
 import static android.content.ContentValues.TAG;
 import static android.widget.Toast.LENGTH_SHORT;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.nfc.Tag;
@@ -78,6 +80,7 @@ public class UpdateProductActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_update_product);
         db = FirebaseFirestore.getInstance();
         colRefProducts = db.collection(FirebaseFireStoreConstants.PRODUCTS);
 //        getProduct();
@@ -262,6 +265,30 @@ public class UpdateProductActivity extends AppCompatActivity {
 
             }
         });
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(UpdateProductActivity.this);
+                builder.setTitle("Bạn có chắc chắn về điều này?");
+                builder.setMessage("Xóa vĩnh viễn");
+                builder.setPositiveButton("xóa", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteProduct();
+                    }
+                });
+
+                builder.setNegativeButton("không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                AlertDialog ad = builder.show();
+            }
+        });
     }
 
     private void initAll() {
@@ -338,6 +365,8 @@ public class UpdateProductActivity extends AppCompatActivity {
                         Toast.makeText(UpdateProductActivity.this, "Sửa thông tin thành công", LENGTH_SHORT);
                     }
                 });
+
+        startActivity(new Intent(UpdateProductActivity.this, ViewAllProductsActivity.class));
     }
 
     private void UploadImage() {
@@ -380,8 +409,21 @@ public class UpdateProductActivity extends AppCompatActivity {
             });
 
         } else {
-            Toast.makeText(UpdateProductActivity.this, "Chọn ảnh", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UpdateProductActivity.this, "Chọn ảnh mới", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void deleteProduct() {
+        final String docsID = (String) getIntent().getSerializableExtra("productId");
+        db.collection(FirebaseFireStoreConstants.PRODUCTS).document(docsID).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@androidx.annotation.NonNull Task<Void> task) {
+                        Toast.makeText(UpdateProductActivity.this, "Xóa thành công", LENGTH_SHORT).show();
+                        finish();
+                        startActivity(new Intent(UpdateProductActivity.this, ViewAllProductsActivity.class));
+                    }
+                });
     }
 }
 //https://github.dev/jirawatee/CloudFirestore-Android

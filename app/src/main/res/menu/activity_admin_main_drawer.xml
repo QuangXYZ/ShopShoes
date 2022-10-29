@@ -24,4 +24,32 @@
             android:icon="@drawable/ic_baseline_logout"
             android:title="Đăng xuất" />
     </group>
+
+    <item android:title="@string/category">
+        <menu>
+            <item
+                android:id="@+id/nav_add_category"
+                android:icon="@drawable/ic_baseline_add_admin"
+                android:title="@string/add_category" />
+
+            <item
+                android:id="@+id/nav_view_category"
+                android:icon="@drawable/ic_baseline_home_admin"
+                android:title="@string/view_category" />
+        </menu>
+    </item>
+
+    <item android:title="@string/brand">
+        <menu>
+            <item
+                android:id="@+id/nav_add_brand"
+                android:icon="@drawable/ic_baseline_add_admin"
+                android:title="@string/add_brand" />
+
+            <item
+                android:id="@+id/nav_view_brand"
+                android:icon="@drawable/ic_baseline_home_admin"
+                android:title="@string/view_brand" />
+        </menu>
+    </item>
 </menu>

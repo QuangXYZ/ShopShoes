@@ -444,6 +444,9 @@ public class NewProductActivity extends AppCompatActivity {
             }
         });
 
+        startActivity(new Intent(NewProductActivity.this, ViewAllProductsActivity.class));
+
+
 //        final CollectionReference reference = db.collection("Products");
 //        reference.add(product).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
 //                    @Override
