@@ -144,6 +144,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
 import com.example.shopshoes.Model.Product;
 import com.example.shopshoes.Model.Utils;
 import com.example.shopshoes.R;
@@ -378,7 +379,7 @@ public class NewProductActivity extends AppCompatActivity {
     private void UploadImage() {
         if (filePath != null) {
             progressBar.setVisibility(View.VISIBLE);
-            final StorageReference childRef = storageRef.child("product_images").child(System.currentTimeMillis() + ".jpg");
+            final StorageReference childRef = storageRef.child(FirebaseFireStoreConstants.IMAGES).child(System.currentTimeMillis() + ".jpg");
             final UploadTask uploadTask = childRef.putFile(filePath);
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -442,6 +443,9 @@ public class NewProductActivity extends AppCompatActivity {
                 }
             }
         });
+
+        startActivity(new Intent(NewProductActivity.this, ViewAllProductsActivity.class));
+
 
 //        final CollectionReference reference = db.collection("Products");
 //        reference.add(product).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

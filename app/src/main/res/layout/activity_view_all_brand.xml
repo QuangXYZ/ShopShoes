@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
     android:layout_height="match_parent"
-    tools:context="com.example.shopshoes.Admin.ViewAllProductsActivity">
+    android:background="@color/colorPrimary"
+    tools:context=".Admin.ViewAllBrandActivity">
 
     <RelativeLayout
         android:id="@+id/toolbar"
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Danh sách đơn hàng"
+            android:text="Danh sách thương hiệu"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -51,7 +51,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:gravity="center"
-            android:hint="Search product"
+            android:hint="Tìm thương hiệu"
             android:background="@null"
             android:drawableStart="@drawable/ic_search"
             android:drawableTint="@color/grey"
@@ -62,21 +62,53 @@
             />
     </androidx.cardview.widget.CardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/product_list"
+    <LinearLayout
+        android:id="@+id/cart3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_below="@+id/card2"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:overScrollMode="never"
-        android:visibility="visible"
-        tools:listitem="@layout/single_product" />
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Mã thương hiệu"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="Tên thương hiệu"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/brand_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cart3"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:nestedScrollingEnabled="false"
+        tools:listitem="@layout/item_single_brand" />
 
     <TextView
-        android:id="@+id/no_product"
+        android:id="@+id/no_brand"
         android:gravity="center"
-        android:text="No Product found"
+        android:text="Không tìm thấy thương hiệu"
         android:textSize="16sp"
         android:visibility="gone"
         android:textColor="@color/black"
@@ -86,7 +118,7 @@
         android:layout_height="wrap_content"/>
 
     <ProgressBar
-        android:id="@+id/spin_progress_bar"
+        android:id="@+id/progress_bar_brand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

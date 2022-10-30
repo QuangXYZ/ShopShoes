@@ -54,6 +54,20 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
             startActivity(intent);
             Toast.makeText(this, "Logout successful", Toast.LENGTH_SHORT).show();
         }
+        else if (id == R.id.nav_add_category) {
+            Intent intent = new Intent(AdminHome.this, NewCategoryActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_view_category) {
+            Intent intent = new Intent(AdminHome.this, ViewAllCategoryActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_add_brand) {
+            Intent intent = new Intent(AdminHome.this, NewBrandActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_view_brand) {
+            Intent intent = new Intent(AdminHome.this, ViewAllBrandActivity.class);
+            startActivity(intent);
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout_admin);
         drawer.closeDrawer(GravityCompat.START);
         return true;
