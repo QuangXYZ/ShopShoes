@@ -83,6 +83,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 quantity+=1;
                 quantityTV.setText(String.valueOf(quantity));
+                product.setQuantityInCart(quantity);
             }
         });
 
@@ -92,6 +93,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if(quantity>1){
                     quantity-=1;
                     quantityTV.setText(String.valueOf(quantity));
+                    product.setQuantityInCart(quantity);
                 }
             }
         });

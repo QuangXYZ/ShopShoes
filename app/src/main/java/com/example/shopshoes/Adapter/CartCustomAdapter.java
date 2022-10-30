@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.shopshoes.Activity.CartActivity;
 import com.example.shopshoes.Model.Order;
 import com.example.shopshoes.Model.Product;
 import com.example.shopshoes.R;
@@ -47,7 +48,7 @@ public class CartCustomAdapter extends RecyclerView.Adapter<CartCustomAdapter.Vi
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         Product product = productArrayList.get(position);
         holder.name.setText(product.getName());
-        holder.price.setText("$"+product.getPrice());
+        holder.price.setText(product.getPrice()+" VND");
         holder.quantity.setText(product.getQuantityInCart()+"");
         if (product.getPhotoUrl() != null) {
             if (!product.getPhotoUrl().equals("")) {
@@ -74,8 +75,15 @@ public class CartCustomAdapter extends RecyclerView.Adapter<CartCustomAdapter.Vi
             @Override
             public void onClick(View view) {
                 int q=Integer.parseInt(holder.quantity.getText().toString());
+
                 order.addTotal(product);
                 holder.quantity.setText(String.valueOf(++q));
+                product.setQuantityInCart(q);
+                CartActivity.totalPriceView.setText(String.valueOf(order.getTotalPrice())+ " VND");
+                String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference myRootRef = FirebaseDatabase.getInstance().getReference();;
+                myRootRef.child("Order").child(currentUserId).setValue(order);
+
 
             }
         });
@@ -86,6 +94,11 @@ public class CartCustomAdapter extends RecyclerView.Adapter<CartCustomAdapter.Vi
                 if(q!=1){
                     order.minusTotal(product);
                     holder.quantity.setText(String.valueOf(--q));
+                    product.setQuantityInCart(q);
+                    CartActivity.totalPriceView.setText(String.valueOf(order.getTotalPrice())+ " VND");
+                    String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    DatabaseReference myRootRef = FirebaseDatabase.getInstance().getReference();;
+                    myRootRef.child("Order").child(currentUserId).setValue(order);
 
                 }
             }
