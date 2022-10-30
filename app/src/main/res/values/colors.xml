@@ -13,4 +13,6 @@
     <color name="grey">#a9a9a9</color>
     <color name="red">#D53B3B</color>
     <color name="backgroundOrder">#00BCD4</color>
+    <color name="price_green_color">#089426</color>
+    <color name="orange">#FFA500</color>
 </resources>

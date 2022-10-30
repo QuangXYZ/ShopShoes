@@ -1,6 +1,7 @@
 package com.example.shopshoes.Activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.shopshoes.Adapter.CartCustomAdapter;
@@ -47,7 +48,7 @@ public class CartActivity extends AppCompatActivity {
     private RecyclerView cartRecyclerView;
     private CartCustomAdapter cartCustomAdapter;
     private ArrayList<Product> productArrayList;
-    public static double totalPrice;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class CartActivity extends AppCompatActivity {
                 order.setTotalPrice(0);
                 productArrayList.clear();
                 updateOrderToFirebase();
-                totalPriceView.setText("0.0");
+                totalPriceView.setText("0 VND");
                 cartCustomAdapter.notifyDataSetChanged();
             }
         });
@@ -77,13 +78,11 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(order.getTotalPrice()>0){
-//                    Intent intent=new Intent(CartActivity.this,EventLocationActivity.class);
-//                    intent.putExtra("order", (Serializable) order);
-//                    intent.putExtra(TAG_medicine_list, productArrayList);
-//                    startActivity(intent);
+                    Intent intent=new Intent(CartActivity.this,CheckOutActivity.class);
+                    startActivity(intent);
                 }
                 else{
-                    Toast.makeText(CartActivity.this, "Cart is Empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CartActivity.this, "Không có sản phẩm trong giỏ hàng", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -125,17 +124,15 @@ public class CartActivity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 if (snapshot.exists()) {
                     order = snapshot.getValue(Order.class);
-
                     productArrayList = (ArrayList<Product>) order.getProductArrayList().clone();
-
                     cartRecyclerView=findViewById(R.id.cart_order_recyclerview);
                     cartCustomAdapter=new CartCustomAdapter(CartActivity.this, productArrayList,order);
                     cartRecyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this));
                     cartRecyclerView.setNestedScrollingEnabled(false);
                     cartRecyclerView.setAdapter(cartCustomAdapter);
+                    totalPriceView.setText(String.valueOf(order.getTotalPrice())+ " VND");
                 }
 
             }
