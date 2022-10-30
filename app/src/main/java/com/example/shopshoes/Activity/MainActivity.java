@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void initUI(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("");
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -88,9 +87,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     currentFragment = FRAGMENT_HOME;
                 }
             }
-        if (id == R.id.nav_add_product) {
+        if (id == R.id.nav_order) {
             currentFragment = FRAGMENT_ORDER;
-            Intent intent = new Intent(getApplicationContext(), NewProductActivity.class);
+            Intent intent = new Intent(MainActivity.this, CartActivity.class);
             startActivity(intent);
         }
         else if (id == R.id.nav_logout) {

@@ -19,10 +19,20 @@ import com.example.shopshoes.Admin.ViewAllProductsActivity;
 import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
 import com.example.shopshoes.Model.Order;
 import com.example.shopshoes.Model.Product;
+import com.example.shopshoes.Model.User;
 import com.example.shopshoes.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -97,12 +107,12 @@ public class ProductDetailActivity extends AppCompatActivity {
                     }
                 }
                 if(!isInCart){
+
                     product.setQuantityInCart(quantity);
                     order.addProduct(product);
-                    Log.d("testorder",order.getTotalPrice()+ "");
-//
-                    Toast.makeText(ProductDetailActivity.this,"Added to cart",Toast.LENGTH_LONG).show();
-                    finish();
+                    addOrderToFirebase(order);
+
+
                 }
                 else{
                     Toast.makeText(ProductDetailActivity.this,"Already in cart",Toast.LENGTH_LONG).show();
@@ -124,11 +134,49 @@ public class ProductDetailActivity extends AppCompatActivity {
         product=new Product();
 
         order=new Order();
+        getOrderFormFirebase();
     }
 
     public void goBack(View view) {
         finish();
     }
 
+    private void addOrderToFirebase(Order order){
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        DatabaseReference myRootRef = FirebaseDatabase.getInstance().getReference();;
+        myRootRef.child("Order").child(currentUserId).setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(ProductDetailActivity.this, "Added to cart", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProductDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+    private void getOrderFormFirebase(){
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = database.getReference("Order").child(currentUserId);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (snapshot.exists()) {
+                    order = snapshot.getValue(Order.class);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }

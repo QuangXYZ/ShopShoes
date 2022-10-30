@@ -14,7 +14,7 @@
             android:title="Tài khoản" />
 
         <item
-            android:id="@+id/nav_add_product"
+            android:id="@+id/nav_order"
             android:icon="@drawable/ic_baseline_shopping_bag_24"
             android:title="Giỏ hàng" />
 

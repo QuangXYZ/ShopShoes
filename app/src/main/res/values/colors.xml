@@ -12,4 +12,5 @@
     <color name="colorPrimary">#e0e0e0</color>
     <color name="grey">#a9a9a9</color>
     <color name="red">#D53B3B</color>
+    <color name="backgroundOrder">#00BCD4</color>
 </resources>

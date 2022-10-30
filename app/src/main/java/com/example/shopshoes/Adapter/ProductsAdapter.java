@@ -66,6 +66,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
                     if (isAdmin) {
                         Intent intent = new Intent(context, UpdateProductActivity.class);
                         intent.putExtra("productId", product.getProductId());
+                        intent.putExtra("product",product);
                         context.startActivity(intent);
                     }
                     else {
@@ -74,10 +75,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
                         intent.putExtra("product",product);
                         context.startActivity(intent);
                     }
-                    Intent intent=new Intent(context, UpdateProductActivity.class);
-                    intent.putExtra("productId",product.getProductId());
-                intent.putExtra("product",product);
-                    context.startActivity(intent);
+                    
                 }
 
         });

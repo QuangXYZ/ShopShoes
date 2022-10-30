@@ -16,7 +16,7 @@
         android:layout_marginTop="15dp"
         android:onClick="goBack"
         android:src="@drawable/ic_back_arrow"
-        app:tint="@color/black"/>
+        app:tint="@color/black" />
 
 
     <ImageView
@@ -25,9 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottom_card"
         android:layout_below="@+id/ic_back"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp" />
+
+
+        android:scaleType="centerCrop"/>
     <androidx.cardview.widget.CardView
         android:id="@+id/bottom_card"
         android:layout_alignParentBottom="true"
