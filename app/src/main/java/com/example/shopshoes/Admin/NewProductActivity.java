@@ -140,6 +140,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -160,6 +161,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -167,12 +170,14 @@ import com.google.firebase.storage.UploadTask;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class NewProductActivity extends AppCompatActivity {
-    String[] categoriesList = {"", "Dép", "Giày"};
-    String[] brandsList = {"", "Nike", "Adidas"};
-    String[] sizeTypeList = {"", "Nam", "Nữ"};
+    //    String[] categoriesList = {"", "Dép", "Giày"};
+//    String[] brandsList = {"", "Nike", "Adidas"};
+//    String[] sizeTypeList = {"", "Nam", "Nữ"};
     String[] sizeList = {"", "34-35", "35", "35-36", "36", "36-37", "37", "37-38", "38", "38-39", "39", "39-40", "40", "40-41", "41", "41-42", "42", "42-43", "43", "43-44", "44", "44-45", "45", "46", "47", "48", "49"};
     Spinner categorySpinner, brandSpinner, sizeTypeSpinner, sizeSpinner;
     String category = "";
@@ -183,7 +188,6 @@ public class NewProductActivity extends AppCompatActivity {
     int PICK_IMAGE_REQUEST = 111;
     Uri filePath = null;
     StorageReference storageRef;
-    FirebaseFirestore firestore;
     FirebaseFirestore db;
     ImageView uploadPhotoBtn, productImg;
     Button addBtn;
@@ -200,17 +204,17 @@ public class NewProductActivity extends AppCompatActivity {
 
         initAll();
 
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(NewProductActivity.this, android.R.layout.simple_list_item_1, categoriesList);
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySpinner.setAdapter(categoryAdapter);
+//        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(NewProductActivity.this, android.R.layout.simple_list_item_1, categoriesList);
+//        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        categorySpinner.setAdapter(categoryAdapter);
 
-        ArrayAdapter<String> brandAdapter = new ArrayAdapter<String>(NewProductActivity.this, android.R.layout.simple_list_item_1, brandsList);
-        brandAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        brandSpinner.setAdapter(brandAdapter);
+//        ArrayAdapter<String> brandAdapter = new ArrayAdapter<String>(NewProductActivity.this, android.R.layout.simple_list_item_1, brandsList);
+//        brandAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        brandSpinner.setAdapter(brandAdapter);
 
-        ArrayAdapter<String> sizeTypeAdapter = new ArrayAdapter<String>(NewProductActivity.this, android.R.layout.simple_list_item_1, sizeTypeList);
-        sizeTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sizeTypeSpinner.setAdapter(sizeTypeAdapter);
+//        ArrayAdapter<String> sizeTypeAdapter = new ArrayAdapter<String>(NewProductActivity.this, android.R.layout.simple_list_item_1, sizeTypeList);
+//        sizeTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        sizeTypeSpinner.setAdapter(sizeTypeAdapter);
 
         ArrayAdapter<String> sizeAdapter = new ArrayAdapter<String>(NewProductActivity.this, android.R.layout.simple_list_item_1, sizeList);
         sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -222,6 +226,9 @@ public class NewProductActivity extends AppCompatActivity {
     }
 
     private void SettingClickListners() {
+        getDataCategory();
+        getDataBrand();
+        getDataSizeType();
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -352,7 +359,7 @@ public class NewProductActivity extends AppCompatActivity {
         descriptionEt = findViewById(R.id.description_tv);
 
         storageRef = FirebaseStorage.getInstance().getReference();
-        firestore = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         product = new Product();
         Utils.statusBarColor(NewProductActivity.this);
     }
@@ -425,7 +432,7 @@ public class NewProductActivity extends AppCompatActivity {
         //https://www.google.com/search?q=Use+document+ID+for+attribute+id+firestore+android&sxsrf=ALiCzsaQL9EHpEjv06yhPpvY1vAg9R2sMg%3A1666539435848&ei=q19VY9GoM8ThseMP_qmxiAI&ved=0ahUKEwiRqs-Y1_b6AhXEcGwGHf5UDCEQ4dUDCA8&uact=5&oq=Use+document+ID+for+attribute+id+firestore+android&gs_lp=Egdnd3Mtd2l6uAED-AEBMgUQIRigATIFECEYoAHCAgoQABhHGNYEGLADwgIHECEYoAEYCsICBBAhGBWQBghIhEpQ-AVY4kZwAXgByAEAkAEAmAG2AaAB8hOqAQQwLjE44gMEIE0YAeIDBCBBGADiAwQgRhgAiAYB&sclient=gws-wiz
 
         String ID = idProductEt.getText().toString().trim();
-        db = FirebaseFirestore.getInstance();
+//        db = FirebaseFirestore.getInstance();
         DocumentReference docIdRef = db.collection("Products").document(ID);
         docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -476,6 +483,75 @@ public class NewProductActivity extends AppCompatActivity {
 //                        Toast.makeText(NewProductActivity.this, "Add fail", Toast.LENGTH_SHORT);
 //                    }
 //                });
+    }
+
+    private void getDataCategory() {
+
+        CollectionReference subjectsRef = db.collection(FirebaseFireStoreConstants.CATEGORY);
+        Spinner spinner = (Spinner) findViewById(R.id.product_category_Spinner);
+        List<String> category = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, category);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        subjectsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String subject = document.getString("categoryName");
+                        Log.d("ShowEventInfo:", subject);
+                        category.add(subject);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    private void getDataBrand() {
+
+        CollectionReference brandRef = db.collection(FirebaseFireStoreConstants.BRAND);
+        Spinner spinner = (Spinner) findViewById(R.id.product_brand_Spinner);
+        List<String> brand = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, brand);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        brandRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String brandName = document.getString("brandName");
+                        Log.d("ShowEventInfo:", brandName);
+                        brand.add(brandName);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    private void getDataSizeType() {
+
+        CollectionReference brandRef = db.collection(FirebaseFireStoreConstants.SIZE_TYPE);
+        Spinner spinner = (Spinner) findViewById(R.id.product_size_type_Spinner);
+        List<String> sizeType = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, sizeType);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        brandRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String sizeTypeName = document.getString("sizeName");
+                        Log.d("ShowEventInfo:", sizeTypeName);
+                        sizeType.add(sizeTypeName);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 }
 
