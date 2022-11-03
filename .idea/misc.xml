@@ -23,6 +23,8 @@
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_main_admin.xml" value="0.17082837891399127" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_main_drawer.xml" value="0.17082837891399127" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_new_product.xml" value="0.160880195599022" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_order.xml" value="0.160880195599022" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_order_detail.xml" value="0.17" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_product_detail.xml" value="0.16" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_sign_up.xml" value="0.5" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/activity_splash_screen.xml" value="0.22447916666666667" />
@@ -35,10 +37,14 @@
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/fragment_first.xml" value="0.160880195599022" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/fragment_home.xml" value="0.160880195599022" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/fragment_home_list.xml" value="0.16012683313515655" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/fragment_order.xml" value="0.160880195599022" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/fragment_second.xml" value="0.160880195599022" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/item_single_oder.xml" value="0.160880195599022" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/nav_header_main.xml" value="0.17082837891399127" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/single_cart_item.xml" value="0.160880195599022" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/single_order_item.xml" value="0.160880195599022" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/single_product.xml" value="0.160880195599022" />
+        <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/layout/single_product_order_item.xml" value="0.160880195599022" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/menu/activity_admin_main_drawer.xml" value="0.17082837891399127" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/menu/activity_customers_orders.xml" value="0.17082837891399127" />
         <entry key="..\:/Users/Tit/AndroidStudioProjects/ShopShoes/app/src/main/res/menu/activity_main_drawer.xml" value="0.5" />

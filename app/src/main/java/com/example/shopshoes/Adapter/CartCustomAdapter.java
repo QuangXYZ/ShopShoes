@@ -64,7 +64,7 @@ public class CartCustomAdapter extends RecyclerView.Adapter<CartCustomAdapter.Vi
                 order.removeProduct(product);
                 String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 DatabaseReference myRootRef = FirebaseDatabase.getInstance().getReference();;
-                myRootRef.child("Order").child(currentUserId).setValue(order);
+                myRootRef.child("Cart").child(currentUserId).setValue(order);
 
 
             }
@@ -82,7 +82,7 @@ public class CartCustomAdapter extends RecyclerView.Adapter<CartCustomAdapter.Vi
                 CartActivity.totalPriceView.setText(String.valueOf(order.getTotalPrice())+ " VND");
                 String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 DatabaseReference myRootRef = FirebaseDatabase.getInstance().getReference();;
-                myRootRef.child("Order").child(currentUserId).setValue(order);
+                myRootRef.child("Cart").child(currentUserId).setValue(order);
 
 
             }
@@ -98,7 +98,7 @@ public class CartCustomAdapter extends RecyclerView.Adapter<CartCustomAdapter.Vi
                     CartActivity.totalPriceView.setText(String.valueOf(order.getTotalPrice())+ " VND");
                     String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     DatabaseReference myRootRef = FirebaseDatabase.getInstance().getReference();;
-                    myRootRef.child("Order").child(currentUserId).setValue(order);
+                    myRootRef.child("Cart").child(currentUserId).setValue(order);
 
                 }
             }

@@ -14,12 +14,12 @@
             android:title="Tài khoản" />
 
         <item
-            android:id="@+id/nav_order"
+            android:id="@+id/nav_cart"
             android:icon="@drawable/ic_baseline_shopping_bag_24"
             android:title="Giỏ hàng" />
 
         <item
-            android:id="@+id/order"
+            android:id="@+id/nav_order"
             android:icon="@drawable/ic_baseline_view_list"
             android:title="Đơn hàng" />
 

@@ -124,7 +124,7 @@ public class CheckOutActivity extends AppCompatActivity {
     private void updateOrderToFirebase()  {
         pd.show(this,"Please Wait..","Submitting order..");
 
-        DatabaseReference root= FirebaseDatabase.getInstance().getReference().child("OrderBill");
+        DatabaseReference root= FirebaseDatabase.getInstance().getReference().child("Order");
         String key=root.push().getKey();
         order.setId(key);
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
@@ -137,11 +137,11 @@ public class CheckOutActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 order.getCartProductList().clear();
-                order.setTotalPrice(0.0);
+                order.setTotalPrice(0);
                 productArrayList.clear();
                 String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 DatabaseReference myRootRef = FirebaseDatabase.getInstance().getReference();;
-                myRootRef.child("Order").child(currentUserId).setValue(null);
+                myRootRef.child("Cart").child(currentUserId).setValue(null);
                 //cartCustomAdapter.notifyDataSetChanged();
                 //totalPriceView.setText("0.0");
                 pd.dismiss();
@@ -168,11 +168,10 @@ public class CheckOutActivity extends AppCompatActivity {
     private void getOrderFormFirebase(){
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("Order").child(currentUserId);
+        DatabaseReference databaseReference = database.getReference("Cart").child(currentUserId);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 if (snapshot.exists()) {
                     order = snapshot.getValue(Order.class);
                     productArrayList = (ArrayList<Product>) order.getProductArrayList().clone();
