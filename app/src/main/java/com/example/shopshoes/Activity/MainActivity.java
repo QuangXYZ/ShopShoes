@@ -21,6 +21,7 @@ import com.example.shopshoes.Admin.AdminHome;
 import com.example.shopshoes.Admin.NewProductActivity;
 import com.example.shopshoes.Admin.ViewAllProductsActivity;
 import com.example.shopshoes.Fragment.FragmentHome;
+import com.example.shopshoes.Fragment.FragmentOrder;
 import com.example.shopshoes.Model.User;
 import com.example.shopshoes.R;
 import com.google.android.material.navigation.NavigationView;
@@ -81,16 +82,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-            if (id == R.id.nav_home) {
+        if (id == R.id.nav_home) {
                 if (currentFragment != FRAGMENT_HOME) {
                     replaceFagment(new FragmentHome());
                     currentFragment = FRAGMENT_HOME;
                 }
-            }
-        if (id == R.id.nav_order) {
-            currentFragment = FRAGMENT_ORDER;
+        }
+        else if (id == R.id.nav_cart) {
             Intent intent = new Intent(MainActivity.this, CartActivity.class);
             startActivity(intent);
+        }
+        else if (id == R.id.nav_order) {
+            if (currentFragment != FRAGMENT_ORDER) {
+                replaceFagment(new FragmentOrder());
+                currentFragment = FRAGMENT_ORDER;
+            }
         }
         else if (id == R.id.nav_logout) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);

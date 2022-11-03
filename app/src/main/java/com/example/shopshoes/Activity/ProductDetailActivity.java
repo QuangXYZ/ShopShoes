@@ -147,7 +147,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         DatabaseReference myRootRef = FirebaseDatabase.getInstance().getReference();;
-        myRootRef.child("Order").child(currentUserId).setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+        myRootRef.child("Cart").child(currentUserId).setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(ProductDetailActivity.this, "Added to cart", Toast.LENGTH_LONG).show();
@@ -164,7 +164,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void getOrderFormFirebase(){
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("Order").child(currentUserId);
+        DatabaseReference databaseReference = database.getReference("Cart").child(currentUserId);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
