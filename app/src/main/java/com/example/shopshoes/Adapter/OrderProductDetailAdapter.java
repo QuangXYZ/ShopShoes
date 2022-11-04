@@ -24,6 +24,7 @@ public class OrderProductDetailAdapter extends RecyclerView.Adapter<OrderProduct
     Activity context;
 
     public OrderProductDetailAdapter(List<Product> productList, Activity context) {
+        this.productList = new ArrayList<>() ;
         this.productList = productList;
         this.context = context;
     }

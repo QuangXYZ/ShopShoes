@@ -37,8 +37,8 @@ import io.paperdb.Paper;
 
 public class CheckOutActivity extends AppCompatActivity {
     private ImageView checkOutBackBtn;
-    private TextView orderPrice,shipmentPrice,totalPayablePrice, checkOutBtn,streetAddress;
-    private EditText usercomments;
+    private TextView orderPrice,totalPayablePrice, checkOutBtn;
+    private EditText usercomments,userAdress;
 
     private ProgressDialog pd;
     private AlertDialog.Builder builder;
@@ -85,7 +85,7 @@ public class CheckOutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                street=streetAddress.getText().toString();
+                street=userAdress.getText().toString();
                 comments=usercomments.getText().toString();
 
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -95,7 +95,7 @@ public class CheckOutActivity extends AppCompatActivity {
                         if(order.getTotalPrice()>0){
                             order.setStatus("Pending");
                             updateOrderToFirebase();
-
+                            finish();
                         }
                         else{
                             Toast.makeText(CheckOutActivity.this, "No Item in Cart", Toast.LENGTH_SHORT).show();
@@ -130,7 +130,7 @@ public class CheckOutActivity extends AppCompatActivity {
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         order.setDateOfOrder(currentDateTimeString);
         order.setTotalPrice(order.getTotalPrice()+10);
-        order.setStreet(street);
+        order.setAddress(street);
         order.setComments(comments);
 
         root.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(key).setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -156,14 +156,14 @@ public class CheckOutActivity extends AppCompatActivity {
         //view
         checkOutBackBtn=findViewById(R.id.checkout_back_btn);
         orderPrice=findViewById(R.id.checkout_order_price_view);
-        shipmentPrice=findViewById(R.id.checkout_shipping_price_view);
+
         totalPayablePrice=findViewById(R.id.checkout_total_price_view);
-        streetAddress=findViewById(R.id.checkout_address_view);
         usercomments=findViewById(R.id.checkout_comment_view);
         checkOutBtn=findViewById(R.id.checkout_btn);
         pd=new ProgressDialog(this);
         order=new Order();
         productArrayList =new ArrayList<>();
+        userAdress = findViewById(R.id.checkout_address_view);
     }
     private void getOrderFormFirebase(){
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -175,7 +175,7 @@ public class CheckOutActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     order = snapshot.getValue(Order.class);
                     productArrayList = (ArrayList<Product>) order.getProductArrayList().clone();
-                    streetAddress.setText(order.getAddress());
+
                     //setting values of prices
                     //orderPrice.setText("Rs. "+ order.getTotalPrice());
                     orderPrice.setText(order.getTotalPrice()+" VND");
