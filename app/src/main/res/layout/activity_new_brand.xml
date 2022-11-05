@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorPrimary"
-    tools:context=".Admin.NewBrandActivity">
+    tools:context=".Admin.Brand.NewBrandActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

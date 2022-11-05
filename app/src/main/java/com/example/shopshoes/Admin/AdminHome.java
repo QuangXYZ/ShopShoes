@@ -14,6 +14,13 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.shopshoes.Activity.LoginActivity;
+import com.example.shopshoes.Admin.Brand.NewBrandActivity;
+import com.example.shopshoes.Admin.Brand.ViewAllBrandActivity;
+import com.example.shopshoes.Admin.Category.NewCategoryActivity;
+import com.example.shopshoes.Admin.Category.ViewAllCategoryActivity;
+import com.example.shopshoes.Admin.Oder.CustomerOderActivity;
+import com.example.shopshoes.Admin.Product.NewProductActivity;
+import com.example.shopshoes.Admin.Product.ViewAllProductsActivity;
 import com.example.shopshoes.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -67,6 +74,9 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
         } else if (id == R.id.nav_view_brand) {
             Intent intent = new Intent(AdminHome.this, ViewAllBrandActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_customer_order) {
+            Intent intent = new Intent(AdminHome.this, CustomerOderActivity.class);
+            startActivity(intent);
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout_admin);
         drawer.closeDrawer(GravityCompat.START);
@@ -82,4 +92,6 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
             super.onBackPressed();
         }
     }
+
+
 }

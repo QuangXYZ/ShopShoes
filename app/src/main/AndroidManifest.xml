@@ -14,6 +14,12 @@
         android:theme="@style/Theme.ShopShoes"
         tools:targetApi="31">
         <activity
+            android:name=".Admin.Oder.CustomerOderDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.Oder.CustomerOderActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.OrderDetailActivity"
             android:exported="false" />
         <activity
@@ -25,22 +31,22 @@
             android:label="@string/title_activity_cart"
             android:theme="@style/Theme.ShopShoes.NoActionBar" />
         <activity
-            android:name=".Admin.UpdateBrandActivity"
+            android:name=".Admin.Brand.UpdateBrandActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.ViewAllBrandActivity"
+            android:name=".Admin.Brand.ViewAllBrandActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.NewBrandActivity"
+            android:name=".Admin.Brand.NewBrandActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.UpdateCategoryActivity"
+            android:name=".Admin.Category.UpdateCategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.ViewAllCategoryActivity"
+            android:name=".Admin.Category.ViewAllCategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.NewCategoryActivity"
+            android:name=".Admin.Category.NewCategoryActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.ProductDetailActivity"
@@ -48,19 +54,19 @@
             android:label="@string/title_activity_product_detail"
             android:theme="@style/Theme.ShopShoes.NoActionBar" />
         <activity
-            android:name=".Admin.UpdateProductActivity"
+            android:name=".Admin.Product.UpdateProductActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.UpdateProductActivity"
+            android:name=".Admin.Product.UpdateProductActivity"
             android:exported="false" />
         <activity
             android:name=".Admin.AdminHome"
             android:exported="false" />
         <activity
-            android:name=".Admin.NewProductActivity"
+            android:name=".Admin.Product.NewProductActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.ViewAllProductsActivity"
+            android:name=".Admin.Product.ViewAllProductsActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.SignUpActivity"

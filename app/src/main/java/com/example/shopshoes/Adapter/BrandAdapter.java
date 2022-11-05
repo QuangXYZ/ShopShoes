@@ -12,10 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shopshoes.Admin.UpdateBrandActivity;
-import com.example.shopshoes.Admin.UpdateCategoryActivity;
+import com.example.shopshoes.Admin.Brand.UpdateBrandActivity;
 import com.example.shopshoes.Model.Brand;
-import com.example.shopshoes.Model.Category;
 import com.example.shopshoes.R;
 
 import java.util.ArrayList;

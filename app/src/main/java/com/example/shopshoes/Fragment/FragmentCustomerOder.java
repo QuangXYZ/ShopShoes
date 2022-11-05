@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,12 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shopshoes.Activity.CartActivity;
-import com.example.shopshoes.Adapter.CartCustomAdapter;
 import com.example.shopshoes.Adapter.OrderAdapter;
-import com.example.shopshoes.Adapter.ProductsAdapter;
 import com.example.shopshoes.Model.Order;
-import com.example.shopshoes.Model.Product;
 import com.example.shopshoes.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,18 +30,19 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentOrder#newInstance} factory method to
+ * Use the {@link FragmentCustomerOder#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentOrder extends Fragment  {
+public class FragmentCustomerOder extends Fragment {
 
     private OrderAdapter mAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Order> orderArrayList;
-    private TextView noJokeText;
+    private TextView noOder;
     DatabaseReference myRootRef;
     private ProgressBar progressBar;
     FragmentActivity c;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -56,7 +52,7 @@ public class FragmentOrder extends Fragment  {
     private String mParam1;
     private String mParam2;
 
-    public FragmentOrder() {
+    public FragmentCustomerOder() {
         // Required empty public constructor
     }
 
@@ -66,11 +62,11 @@ public class FragmentOrder extends Fragment  {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentOrder.
+     * @return A new instance of fragment FragmentCustomerOder.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentOrder newInstance(String param1, String param2) {
-        FragmentOrder fragment = new FragmentOrder();
+    public static FragmentCustomerOder newInstance(String param1, String param2) {
+        FragmentCustomerOder fragment = new FragmentCustomerOder();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -91,11 +87,11 @@ public class FragmentOrder extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_order, container, false);;
+        View view = inflater.inflate(R.layout.fragment_customer_oder, container, true);;
         orderArrayList =new ArrayList<Order>();
-        recyclerView =view.findViewById(R.id.order_list);
+        recyclerView =view.findViewById(R.id.customer_order_list);
         progressBar = view.findViewById(R.id.spin_progress_bar_order);
-        noJokeText = view.findViewById(R.id.no_order);
+        noOder = view.findViewById(R.id.no_order);
         myRootRef = FirebaseDatabase.getInstance().getReference();
         c = getActivity();
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(c,DividerItemDecoration.VERTICAL);
@@ -105,16 +101,16 @@ public class FragmentOrder extends Fragment  {
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-        getDataFromFirebase();
+//        getDataFromFirebase();
         //Toast.makeText(getActivity(),orderArrayList.size()+" size", Toast.LENGTH_LONG).show();
         return view;
     }
+
     public void getDataFromFirebase() {
 
         progressBar.setVisibility(View.VISIBLE);
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("Order").child(currentUserId);
+        DatabaseReference databaseReference = database.getReference("Order");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -129,7 +125,7 @@ public class FragmentOrder extends Fragment  {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                noJokeText.setVisibility(View.VISIBLE);
+                noOder.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 Toast.makeText(c,"Error", Toast.LENGTH_LONG).show();
 
@@ -140,11 +136,11 @@ public class FragmentOrder extends Fragment  {
     private void setData() {
         if(orderArrayList.size()>0){
             recyclerView.setVisibility(View.VISIBLE);
-            noJokeText.setVisibility(View.GONE);
+            noOder.setVisibility(View.GONE);
         }
         else{
             recyclerView.setVisibility(View.GONE);
-            noJokeText.setVisibility(View.VISIBLE);
+            noOder.setVisibility(View.VISIBLE);
             mAdapter.notifyDataSetChanged();
         }
     }

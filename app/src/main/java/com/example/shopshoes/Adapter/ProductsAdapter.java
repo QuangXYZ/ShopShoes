@@ -1,7 +1,5 @@
 package com.example.shopshoes.Adapter;
 
-import static android.widget.Toast.LENGTH_SHORT;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 //import com.example.shopshoes.Activity.ProductDetailsActivity;
 import com.example.shopshoes.Activity.ProductDetailActivity;
-import com.example.shopshoes.Admin.UpdateProductActivity;
+import com.example.shopshoes.Admin.Product.UpdateProductActivity;
 import com.example.shopshoes.Model.Product;
 import com.example.shopshoes.R;
 import com.squareup.picasso.Picasso;

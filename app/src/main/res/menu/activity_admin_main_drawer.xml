@@ -15,7 +15,7 @@
             android:title="Thêm sản phẩm" />
 
         <item
-            android:id="@+id/order"
+            android:id="@+id/nav_customer_order"
             android:icon="@drawable/ic_baseline_view_list"
             android:title="Đơn hàng" />
 

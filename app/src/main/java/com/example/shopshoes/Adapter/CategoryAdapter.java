@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shopshoes.Admin.UpdateCategoryActivity;
+import com.example.shopshoes.Admin.Category.UpdateCategoryActivity;
 import com.example.shopshoes.Model.Category;
 import com.example.shopshoes.R;
 

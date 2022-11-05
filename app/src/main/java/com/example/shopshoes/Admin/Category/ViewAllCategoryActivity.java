@@ -1,7 +1,11 @@
-package com.example.shopshoes.Admin;
+package com.example.shopshoes.Admin.Category;
 
 import static android.content.ContentValues.TAG;
 import static android.widget.Toast.LENGTH_SHORT;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,24 +17,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.shopshoes.Adapter.ProductsAdapter;
+import com.example.shopshoes.Adapter.CategoryAdapter;
 import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
-import com.example.shopshoes.Model.Product;
-import com.example.shopshoes.Model.Utils;
+import com.example.shopshoes.Model.Category;
 import com.example.shopshoes.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -39,89 +32,78 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 
-public class ViewAllProductsActivity extends AppCompatActivity {
+public class ViewAllCategoryActivity extends AppCompatActivity {
 
-    private ProductsAdapter mAdapter;
+    private CategoryAdapter mCategoryAdapter;
     private RecyclerView recyclerView;
-    private ArrayList<Product> productArrayList;
+    private ArrayList<Category> categoryArrayList;
 
-    DatabaseReference myRootRef;
     private ProgressBar progressBar;
-    private TextView noJokeText;
+    private TextView noCategory;
     private EditText nameInput;
-    private FirebaseFirestore firestore;
-
+    private FirebaseFirestore db;
+    private Category category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_products);
+        setContentView(R.layout.activity_view_all_category);
 
-
-        productArrayList =new ArrayList<Product>();
-        recyclerView =findViewById(R.id.product_list);
-        progressBar = findViewById(R.id.spin_progress_bar);
-        noJokeText = findViewById(R.id.no_product);
+        categoryArrayList = new ArrayList<Category>();
+        recyclerView = findViewById(R.id.category_recyclerview);
+        progressBar = findViewById(R.id.progress_bar_category);
+        noCategory = findViewById(R.id.no_category);
         nameInput = findViewById(R.id.name_input);
-        myRootRef = FirebaseDatabase.getInstance().getReference();
-        Utils.statusBarColor(ViewAllProductsActivity.this);
-
-        mAdapter = new ProductsAdapter(productArrayList, ViewAllProductsActivity.this,true);
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-        recyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-
-
-
+        db = FirebaseFirestore.getInstance();
+        category = new Category();
 
         getDataFromFirebase();
 
-
         searchFunc();
     }
+
     private void searchFunc() {
         nameInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().trim().length() == 0) {
-                    if(productArrayList.size()!=0){
+                    if (categoryArrayList.size() != 0) {
                         recyclerView.setVisibility(View.VISIBLE);
-                        noJokeText.setVisibility(View.GONE);
-                    }
-                    else{
+                        noCategory.setVisibility(View.GONE);
+                    } else {
                         recyclerView.setVisibility(View.GONE);
-                        noJokeText.setVisibility(View.VISIBLE);
+                        noCategory.setVisibility(View.VISIBLE);
                     }
 
-                    mAdapter = new ProductsAdapter(productArrayList,ViewAllProductsActivity.this,true);
-                    recyclerView.setAdapter(mAdapter);
-                    mAdapter.notifyDataSetChanged();
+                    mCategoryAdapter = new CategoryAdapter(ViewAllCategoryActivity.this, categoryArrayList);
+                    recyclerView.setAdapter(mCategoryAdapter);
+                    mCategoryAdapter.notifyDataSetChanged();
                 } else {
-                    ArrayList<Product> clone = new ArrayList<>();
-                    for (Product element : productArrayList) {
-                        if (element.getName().toLowerCase().contains(s.toString().toLowerCase())) {
+                    ArrayList<Category> clone = new ArrayList<>();
+                    for (Category element : categoryArrayList) {
+                        if (element.getCategoryName().toLowerCase().contains(s.toString().toLowerCase())) {
                             clone.add(element);
                         }
                     }
-                    if(clone.size()!=0){
+                    if (clone.size() != 0) {
                         recyclerView.setVisibility(View.VISIBLE);
-                        noJokeText.setVisibility(View.GONE);
-                    }
-                    else{
+                        noCategory.setVisibility(View.GONE);
+                    } else {
                         recyclerView.setVisibility(View.GONE);
-                        noJokeText.setVisibility(View.VISIBLE);
+                        noCategory.setVisibility(View.VISIBLE);
                     }
 
-                    mAdapter = new ProductsAdapter(clone,ViewAllProductsActivity.this,true);
-                    recyclerView.setAdapter(mAdapter);
-                    mAdapter.notifyDataSetChanged();
+                    mCategoryAdapter = new CategoryAdapter(ViewAllCategoryActivity.this, clone);
+                    recyclerView.setAdapter(mCategoryAdapter);
+                    mCategoryAdapter.notifyDataSetChanged();
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -132,8 +114,7 @@ public class ViewAllProductsActivity extends AppCompatActivity {
     public void getDataFromFirebase() {
         progressBar.setVisibility(View.VISIBLE);
         final int[] counter = {0};
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection(FirebaseFireStoreConstants.PRODUCTS);
+        CollectionReference reference = db.collection(FirebaseFireStoreConstants.CATEGORY);
         reference.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -142,35 +123,40 @@ public class ViewAllProductsActivity extends AppCompatActivity {
                             QuerySnapshot snapshot = task.getResult();
                             for (QueryDocumentSnapshot document : snapshot) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                Product product = new Product();
-                                product = document.toObject(Product.class);
-                                productArrayList.add(product);
+
+                                category = document.toObject(Category.class);
+                                categoryArrayList.add(category);
                                 counter[0]++;
                                 if (counter[0] == task.getResult().size()) {
                                     setData();
                                     progressBar.setVisibility(View.GONE);
                                 }
-                                Log.d("ShowEventInfo:", product.toString());
+                                Log.d("ShowEventInfo:", category.toString());
                             }
                         } else {
-                            noJokeText.setVisibility(View.VISIBLE);
+                            noCategory.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
                             Log.d(TAG, "Error getting documents: ", task.getException());
-                            Toast.makeText(ViewAllProductsActivity.this, "Error" + task.getException() , LENGTH_SHORT).show();
+                            Toast.makeText(ViewAllCategoryActivity.this, "Error" + task.getException(), LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
     private void setData() {
-        if(productArrayList.size()>0){
+        progressBar.setVisibility(View.GONE);
+        if (categoryArrayList.size() > 0) {
+            mCategoryAdapter = new CategoryAdapter(ViewAllCategoryActivity.this, categoryArrayList);
+            recyclerView.setNestedScrollingEnabled(false);
+            recyclerView.setLayoutManager(new LinearLayoutManager(ViewAllCategoryActivity.this));
+            recyclerView.setAdapter(mCategoryAdapter);
+            mCategoryAdapter.notifyDataSetChanged();
+
             recyclerView.setVisibility(View.VISIBLE);
-            noJokeText.setVisibility(View.GONE);
-        }
-        else{
+            noCategory.setVisibility(View.GONE);
+        } else {
             recyclerView.setVisibility(View.GONE);
-            noJokeText.setVisibility(View.VISIBLE);
-            mAdapter.notifyDataSetChanged();
+            noCategory.setVisibility(View.VISIBLE);
         }
     }
 

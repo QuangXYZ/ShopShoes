@@ -1,4 +1,4 @@
-package com.example.shopshoes.Admin;
+package com.example.shopshoes.Admin.Category;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
-import com.example.shopshoes.Model.Brand;
 import com.example.shopshoes.Model.Category;
 import com.example.shopshoes.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,51 +23,55 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class NewBrandActivity extends AppCompatActivity {
+public class NewCategoryActivity extends AppCompatActivity {
 
     private StorageReference storageRef;
     private FirebaseFirestore db;
-    private Button addBtnBrand;
-    private EditText idBrand, nameBrand;
+    private Button addBtnCategory;
+    private EditText idCategory, nameCategory;
     private ProgressBar progressBar;
-    private Brand brand;
+    private Category category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_brand);
+        setContentView(R.layout.activity_new_category);
 
         initAll();
         settingClickListners();
     }
 
+    public void goBack(View view) {
+        finish();
+    }
+
     private void initAll() {
-        idBrand = findViewById(R.id.brand_id);
-        nameBrand = findViewById(R.id.brand_name);
-        progressBar = findViewById(R.id.progress_bar_brand);
-        addBtnBrand = findViewById(R.id.add_btn_brand);
+        idCategory = findViewById(R.id.category_id);
+        nameCategory = findViewById(R.id.category_name);
+        progressBar = findViewById(R.id.progress_bar);
+        addBtnCategory = findViewById(R.id.add_btn_category);
 
         db = FirebaseFirestore.getInstance();
         storageRef = FirebaseStorage.getInstance().getReference();
-        brand = new Brand();
+        category = new Category();
     }
 
     private void settingClickListners() {
-        addBtnBrand.setOnClickListener(new View.OnClickListener() {
+        addBtnCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = nameBrand.getText().toString().trim();
-                String id = idBrand.getText().toString().trim();
+                String name = nameCategory.getText().toString().trim();
+                String id = idCategory.getText().toString().trim();
 
                 if(TextUtils.isEmpty(id)) {
-                    idBrand.setError("Nhập mã thể loại");
-                    idBrand.requestFocus();
+                    idCategory.setError("Nhập mã thể loại");
+                    idCategory.requestFocus();
                 } else if(TextUtils.isEmpty(name)) {
-                    nameBrand.setError("Nhập tên thể loại");
-                    nameBrand.requestFocus();
+                    nameCategory.setError("Nhập tên thể loại");
+                    nameCategory.requestFocus();
                 } else {
-                    brand.setBrandId(id);
-                    brand.setBrandName(name);
+                    category.setCategoryId(id);
+                    category.setCategoryName(name);
                     saveInfoDatabaseCategory();
                 }
             }
@@ -77,30 +80,26 @@ public class NewBrandActivity extends AppCompatActivity {
 
     private void saveInfoDatabaseCategory() {
         progressBar.setVisibility(View.VISIBLE);
-        String ID = idBrand.getText().toString().trim();
-        DocumentReference docIdRef = db.collection(FirebaseFireStoreConstants.BRAND).document(ID);
+        String ID = idCategory.getText().toString().trim();
+        DocumentReference docIdRef = db.collection(FirebaseFireStoreConstants.CATEGORY).document(ID);
         docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Toast.makeText(NewBrandActivity.this, "Thương hiệu đã có", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NewCategoryActivity.this, "Thể loại đã có", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
                     } else {
                         progressBar.setVisibility(View.GONE);
-                        db.collection(FirebaseFireStoreConstants.BRAND).document(ID).set(brand);
-                        Toast.makeText(NewBrandActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(NewBrandActivity.this, ViewAllBrandActivity.class));
+                        db.collection(FirebaseFireStoreConstants.CATEGORY).document(ID).set(category);
+                        Toast.makeText(NewCategoryActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(NewCategoryActivity.this, ViewAllCategoryActivity.class));
                     }
                 } else {
-                    Toast.makeText(NewBrandActivity.this, "Thêm không thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewCategoryActivity.this, "Thêm không thành công", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-    }
-
-    public void goBack(View view) {
-        finish();
     }
 }

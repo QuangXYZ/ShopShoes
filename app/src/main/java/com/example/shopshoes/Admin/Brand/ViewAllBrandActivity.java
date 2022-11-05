@@ -1,4 +1,4 @@
-package com.example.shopshoes.Admin;
+package com.example.shopshoes.Admin.Brand;
 
 import static android.content.ContentValues.TAG;
 import static android.widget.Toast.LENGTH_SHORT;
@@ -17,11 +17,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shopshoes.Adapter.CategoryAdapter;
-import com.example.shopshoes.Adapter.ProductsAdapter;
+import com.example.shopshoes.Adapter.BrandAdapter;
 import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
-import com.example.shopshoes.Model.Category;
-import com.example.shopshoes.Model.Product;
+import com.example.shopshoes.Model.Brand;
 import com.example.shopshoes.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,30 +32,30 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 
-public class ViewAllCategoryActivity extends AppCompatActivity {
+public class ViewAllBrandActivity extends AppCompatActivity {
 
-    private CategoryAdapter mCategoryAdapter;
+    private BrandAdapter mBrandAdapter;
     private RecyclerView recyclerView;
-    private ArrayList<Category> categoryArrayList;
+    private ArrayList<Brand> brandArrayList;
 
     private ProgressBar progressBar;
-    private TextView noCategory;
+    private TextView noBranch;
     private EditText nameInput;
     private FirebaseFirestore db;
-    private Category category;
+    private Brand brand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_all_category);
+        setContentView(R.layout.activity_view_all_brand);
 
-        categoryArrayList = new ArrayList<Category>();
-        recyclerView = findViewById(R.id.category_recyclerview);
-        progressBar = findViewById(R.id.progress_bar_category);
-        noCategory = findViewById(R.id.no_category);
+        brandArrayList = new ArrayList<Brand>();
+        recyclerView = findViewById(R.id.brand_recyclerview);
+        progressBar = findViewById(R.id.progress_bar_brand);
+        noBranch = findViewById(R.id.no_brand);
         nameInput = findViewById(R.id.name_input);
         db = FirebaseFirestore.getInstance();
-        category = new Category();
+        brand = new Brand();
 
         getDataFromFirebase();
 
@@ -74,35 +72,35 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().trim().length() == 0) {
-                    if (categoryArrayList.size() != 0) {
+                    if (brandArrayList.size() != 0) {
                         recyclerView.setVisibility(View.VISIBLE);
-                        noCategory.setVisibility(View.GONE);
+                        noBranch.setVisibility(View.GONE);
                     } else {
                         recyclerView.setVisibility(View.GONE);
-                        noCategory.setVisibility(View.VISIBLE);
+                        noBranch.setVisibility(View.VISIBLE);
                     }
 
-                    mCategoryAdapter = new CategoryAdapter(ViewAllCategoryActivity.this, categoryArrayList);
-                    recyclerView.setAdapter(mCategoryAdapter);
-                    mCategoryAdapter.notifyDataSetChanged();
+                    mBrandAdapter = new BrandAdapter(ViewAllBrandActivity.this, brandArrayList);
+                    recyclerView.setAdapter(mBrandAdapter);
+                    mBrandAdapter.notifyDataSetChanged();
                 } else {
-                    ArrayList<Category> clone = new ArrayList<>();
-                    for (Category element : categoryArrayList) {
-                        if (element.getCategoryName().toLowerCase().contains(s.toString().toLowerCase())) {
+                    ArrayList<Brand> clone = new ArrayList<>();
+                    for (Brand element : brandArrayList) {
+                        if (element.getBrandName().toLowerCase().contains(s.toString().toLowerCase())) {
                             clone.add(element);
                         }
                     }
                     if (clone.size() != 0) {
                         recyclerView.setVisibility(View.VISIBLE);
-                        noCategory.setVisibility(View.GONE);
+                        noBranch.setVisibility(View.GONE);
                     } else {
                         recyclerView.setVisibility(View.GONE);
-                        noCategory.setVisibility(View.VISIBLE);
+                        noBranch.setVisibility(View.VISIBLE);
                     }
 
-                    mCategoryAdapter = new CategoryAdapter(ViewAllCategoryActivity.this, clone);
-                    recyclerView.setAdapter(mCategoryAdapter);
-                    mCategoryAdapter.notifyDataSetChanged();
+                    mBrandAdapter = new BrandAdapter(ViewAllBrandActivity.this, clone);
+                    recyclerView.setAdapter(mBrandAdapter);
+                    mBrandAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -116,7 +114,7 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
     public void getDataFromFirebase() {
         progressBar.setVisibility(View.VISIBLE);
         final int[] counter = {0};
-        CollectionReference reference = db.collection(FirebaseFireStoreConstants.CATEGORY);
+        CollectionReference reference = db.collection(FirebaseFireStoreConstants.BRAND);
         reference.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -126,20 +124,20 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : snapshot) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
 
-                                category = document.toObject(Category.class);
-                                categoryArrayList.add(category);
+                                brand = document.toObject(Brand.class);
+                                brandArrayList.add(brand);
                                 counter[0]++;
                                 if (counter[0] == task.getResult().size()) {
                                     setData();
                                     progressBar.setVisibility(View.GONE);
                                 }
-                                Log.d("ShowEventInfo:", category.toString());
+                                Log.d("ShowEventInfo:", brand.toString());
                             }
                         } else {
-                            noCategory.setVisibility(View.VISIBLE);
+                            noBranch.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
                             Log.d(TAG, "Error getting documents: ", task.getException());
-                            Toast.makeText(ViewAllCategoryActivity.this, "Error" + task.getException(), LENGTH_SHORT).show();
+                            Toast.makeText(ViewAllBrandActivity.this, "Error" + task.getException(), LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -147,18 +145,18 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
 
     private void setData() {
         progressBar.setVisibility(View.GONE);
-        if (categoryArrayList.size() > 0) {
-            mCategoryAdapter = new CategoryAdapter(ViewAllCategoryActivity.this, categoryArrayList);
+        if (brandArrayList.size() > 0) {
+            mBrandAdapter = new BrandAdapter(ViewAllBrandActivity.this, brandArrayList);
             recyclerView.setNestedScrollingEnabled(false);
-            recyclerView.setLayoutManager(new LinearLayoutManager(ViewAllCategoryActivity.this));
-            recyclerView.setAdapter(mCategoryAdapter);
-            mCategoryAdapter.notifyDataSetChanged();
+            recyclerView.setLayoutManager(new LinearLayoutManager(ViewAllBrandActivity.this));
+            recyclerView.setAdapter(mBrandAdapter);
+            mBrandAdapter.notifyDataSetChanged();
 
             recyclerView.setVisibility(View.VISIBLE);
-            noCategory.setVisibility(View.GONE);
+            noBranch.setVisibility(View.GONE);
         } else {
             recyclerView.setVisibility(View.GONE);
-            noCategory.setVisibility(View.VISIBLE);
+            noBranch.setVisibility(View.VISIBLE);
         }
     }
 

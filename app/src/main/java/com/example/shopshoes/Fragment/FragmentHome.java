@@ -6,7 +6,6 @@ import static android.widget.Toast.LENGTH_SHORT;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -24,10 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shopshoes.Adapter.ProductsAdapter;
-import com.example.shopshoes.Admin.ViewAllProductsActivity;
 import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
 import com.example.shopshoes.Model.Product;
-import com.example.shopshoes.Model.Utils;
 import com.example.shopshoes.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

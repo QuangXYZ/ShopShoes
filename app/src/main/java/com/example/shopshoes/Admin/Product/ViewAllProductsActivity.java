@@ -1,11 +1,7 @@
-package com.example.shopshoes.Admin;
+package com.example.shopshoes.Admin.Product;
 
 import static android.content.ContentValues.TAG;
 import static android.widget.Toast.LENGTH_SHORT;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,12 +13,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shopshoes.Adapter.BrandAdapter;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.shopshoes.Adapter.ProductsAdapter;
 import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
-import com.example.shopshoes.Model.Brand;
+import com.example.shopshoes.Model.Product;
+import com.example.shopshoes.Model.Utils;
 import com.example.shopshoes.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -32,78 +35,89 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 
-public class ViewAllBrandActivity extends AppCompatActivity {
+public class ViewAllProductsActivity extends AppCompatActivity {
 
-    private BrandAdapter mBrandAdapter;
+    private ProductsAdapter mAdapter;
     private RecyclerView recyclerView;
-    private ArrayList<Brand> brandArrayList;
+    private ArrayList<Product> productArrayList;
 
+    DatabaseReference myRootRef;
     private ProgressBar progressBar;
-    private TextView noBranch;
+    private TextView noJokeText;
     private EditText nameInput;
-    private FirebaseFirestore db;
-    private Brand brand;
+    private FirebaseFirestore firestore;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_all_brand);
+        setContentView(R.layout.activity_all_products);
 
-        brandArrayList = new ArrayList<Brand>();
-        recyclerView = findViewById(R.id.brand_recyclerview);
-        progressBar = findViewById(R.id.progress_bar_brand);
-        noBranch = findViewById(R.id.no_brand);
+
+        productArrayList =new ArrayList<Product>();
+        recyclerView =findViewById(R.id.product_list);
+        progressBar = findViewById(R.id.spin_progress_bar);
+        noJokeText = findViewById(R.id.no_product);
         nameInput = findViewById(R.id.name_input);
-        db = FirebaseFirestore.getInstance();
-        brand = new Brand();
+        myRootRef = FirebaseDatabase.getInstance().getReference();
+        Utils.statusBarColor(ViewAllProductsActivity.this);
+
+        mAdapter = new ProductsAdapter(productArrayList, ViewAllProductsActivity.this,true);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+
+
+
 
         getDataFromFirebase();
 
+
         searchFunc();
     }
-
     private void searchFunc() {
         nameInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().trim().length() == 0) {
-                    if (brandArrayList.size() != 0) {
+                    if(productArrayList.size()!=0){
                         recyclerView.setVisibility(View.VISIBLE);
-                        noBranch.setVisibility(View.GONE);
-                    } else {
+                        noJokeText.setVisibility(View.GONE);
+                    }
+                    else{
                         recyclerView.setVisibility(View.GONE);
-                        noBranch.setVisibility(View.VISIBLE);
+                        noJokeText.setVisibility(View.VISIBLE);
                     }
 
-                    mBrandAdapter = new BrandAdapter(ViewAllBrandActivity.this, brandArrayList);
-                    recyclerView.setAdapter(mBrandAdapter);
-                    mBrandAdapter.notifyDataSetChanged();
+                    mAdapter = new ProductsAdapter(productArrayList,ViewAllProductsActivity.this,true);
+                    recyclerView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
                 } else {
-                    ArrayList<Brand> clone = new ArrayList<>();
-                    for (Brand element : brandArrayList) {
-                        if (element.getBrandName().toLowerCase().contains(s.toString().toLowerCase())) {
+                    ArrayList<Product> clone = new ArrayList<>();
+                    for (Product element : productArrayList) {
+                        if (element.getName().toLowerCase().contains(s.toString().toLowerCase())) {
                             clone.add(element);
                         }
                     }
-                    if (clone.size() != 0) {
+                    if(clone.size()!=0){
                         recyclerView.setVisibility(View.VISIBLE);
-                        noBranch.setVisibility(View.GONE);
-                    } else {
+                        noJokeText.setVisibility(View.GONE);
+                    }
+                    else{
                         recyclerView.setVisibility(View.GONE);
-                        noBranch.setVisibility(View.VISIBLE);
+                        noJokeText.setVisibility(View.VISIBLE);
                     }
 
-                    mBrandAdapter = new BrandAdapter(ViewAllBrandActivity.this, clone);
-                    recyclerView.setAdapter(mBrandAdapter);
-                    mBrandAdapter.notifyDataSetChanged();
+                    mAdapter = new ProductsAdapter(clone,ViewAllProductsActivity.this,true);
+                    recyclerView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -114,7 +128,8 @@ public class ViewAllBrandActivity extends AppCompatActivity {
     public void getDataFromFirebase() {
         progressBar.setVisibility(View.VISIBLE);
         final int[] counter = {0};
-        CollectionReference reference = db.collection(FirebaseFireStoreConstants.BRAND);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reference = db.collection(FirebaseFireStoreConstants.PRODUCTS);
         reference.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -123,40 +138,35 @@ public class ViewAllBrandActivity extends AppCompatActivity {
                             QuerySnapshot snapshot = task.getResult();
                             for (QueryDocumentSnapshot document : snapshot) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-
-                                brand = document.toObject(Brand.class);
-                                brandArrayList.add(brand);
+                                Product product = new Product();
+                                product = document.toObject(Product.class);
+                                productArrayList.add(product);
                                 counter[0]++;
                                 if (counter[0] == task.getResult().size()) {
                                     setData();
                                     progressBar.setVisibility(View.GONE);
                                 }
-                                Log.d("ShowEventInfo:", brand.toString());
+                                Log.d("ShowEventInfo:", product.toString());
                             }
                         } else {
-                            noBranch.setVisibility(View.VISIBLE);
+                            noJokeText.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
                             Log.d(TAG, "Error getting documents: ", task.getException());
-                            Toast.makeText(ViewAllBrandActivity.this, "Error" + task.getException(), LENGTH_SHORT).show();
+                            Toast.makeText(ViewAllProductsActivity.this, "Error" + task.getException() , LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
     private void setData() {
-        progressBar.setVisibility(View.GONE);
-        if (brandArrayList.size() > 0) {
-            mBrandAdapter = new BrandAdapter(ViewAllBrandActivity.this, brandArrayList);
-            recyclerView.setNestedScrollingEnabled(false);
-            recyclerView.setLayoutManager(new LinearLayoutManager(ViewAllBrandActivity.this));
-            recyclerView.setAdapter(mBrandAdapter);
-            mBrandAdapter.notifyDataSetChanged();
-
+        if(productArrayList.size()>0){
             recyclerView.setVisibility(View.VISIBLE);
-            noBranch.setVisibility(View.GONE);
-        } else {
+            noJokeText.setVisibility(View.GONE);
+        }
+        else{
             recyclerView.setVisibility(View.GONE);
-            noBranch.setVisibility(View.VISIBLE);
+            noJokeText.setVisibility(View.VISIBLE);
+            mAdapter.notifyDataSetChanged();
         }
     }
 

@@ -17,9 +17,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.shopshoes.Admin.AdminHome;
-import com.example.shopshoes.Admin.NewProductActivity;
-import com.example.shopshoes.Admin.ViewAllProductsActivity;
 import com.example.shopshoes.Fragment.FragmentHome;
 import com.example.shopshoes.Fragment.FragmentOrder;
 import com.example.shopshoes.Model.User;

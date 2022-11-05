@@ -1,4 +1,4 @@
-package com.example.shopshoes.Admin;
+package com.example.shopshoes.Admin.Category;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -18,59 +18,64 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
-import com.example.shopshoes.Model.Brand;
+import com.example.shopshoes.Model.Category;
 import com.example.shopshoes.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class UpdateBrandActivity extends AppCompatActivity {
+public class UpdateCategoryActivity extends AppCompatActivity {
 
     private Button updateBtn, deleteBtn;
-    private EditText nameBrandEdt;
-    private TextView idBrandTv;
+    private EditText nameCategoryEdt;
+    private TextView idCategoryEdt;
     private ProgressBar progressBar;
-    private Brand brand;
+    private Category category;
     private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_brand);
+        setContentView(R.layout.activity_update_category);
 
         initAll();
 
         SettingClickListners();
 
-        brand = (Brand) getIntent().getSerializableExtra("brand");
-        idBrandTv.setText(brand.getBrandId());
-        nameBrandEdt.setText(brand.getBrandName());
+        category = (Category) getIntent().getSerializableExtra("category");
+        idCategoryEdt.setText(category.getCategoryId());
+        nameCategoryEdt.setText(category.getCategoryName());
     }
 
     private void initAll() {
-        updateBtn = findViewById(R.id.update_btn_brand);
-        deleteBtn = findViewById(R.id.delete_btn_brand);
-        idBrandTv = findViewById(R.id.brand_id_update);
-        nameBrandEdt = findViewById(R.id.brand_name_update);
-        progressBar = findViewById(R.id.progress_bar_brand_update);
+        updateBtn = findViewById(R.id.update_btn_category);
+        deleteBtn = findViewById(R.id.delete_btn_category);
+        idCategoryEdt = findViewById(R.id.category_id_update);
+        nameCategoryEdt = findViewById(R.id.category_name_update);
+        progressBar = findViewById(R.id.progress_bar_category_update);
 
-        brand = new Brand();
+        category = new Category();
         db = FirebaseFirestore.getInstance();
+
     }
 
     private void SettingClickListners() {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String id = idCategoryEdt.getText().toString().trim();
+                String name = nameCategoryEdt.getText().toString().trim();
 
-                String name = nameBrandEdt.getText().toString().trim();
-
-                if (TextUtils.isEmpty(name)) {
-                    nameBrandEdt.setError("Nhập tên thể loại");
-                    nameBrandEdt.requestFocus();
+                if (TextUtils.isEmpty(id)) {
+                    idCategoryEdt.setError("Nhập mã thể loại");
+                    idCategoryEdt.requestFocus();
+                } else if (TextUtils.isEmpty(name)) {
+                    nameCategoryEdt.setError("Nhập tên thể loại");
+                    nameCategoryEdt.requestFocus();
                 } else {
-                    brand.setBrandName(name);
+                    category.setCategoryId(id);
+                    category.setCategoryName(name);
                     UpdateDataCategory();
                 }
             }
@@ -79,7 +84,7 @@ public class UpdateBrandActivity extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(UpdateBrandActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(UpdateCategoryActivity.this);
                 builder.setTitle("Bạn có chắc chắn về điều này?");
                 builder.setMessage("Xóa vĩnh viễn");
                 builder.setPositiveButton("xóa", new DialogInterface.OnClickListener() {
@@ -101,37 +106,36 @@ public class UpdateBrandActivity extends AppCompatActivity {
         });
     }
 
-    public void goBack(View view) {
-        finish();
-    }
-
     private void UpdateDataCategory() {
         progressBar.setVisibility(View.VISIBLE);
-        final String docsID = (String) getIntent().getSerializableExtra("brandId");
-        db.collection(FirebaseFireStoreConstants.BRAND).document(docsID)
-                .update("brandId", brand.getBrandId(),
-                        "brandName", brand.getBrandName())
+        final String docsID = (String) getIntent().getSerializableExtra("categoryId");
+        db.collection(FirebaseFireStoreConstants.CATEGORY).document(docsID)
+                .update("categoryId", category.getCategoryId(),
+                        "categoryName", category.getCategoryName())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(UpdateBrandActivity.this, "Sửa thông tin thành công", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UpdateCategoryActivity.this, "Sửa thông tin thành công", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
                     }
                 });
-        startActivity(new Intent(UpdateBrandActivity.this, ViewAllBrandActivity.class));
+        startActivity(new Intent(UpdateCategoryActivity.this, ViewAllCategoryActivity.class));
     }
 
     private void deleteCategory() {
-        final String docsID = (String) getIntent().getSerializableExtra("brandId");
-        db.collection(FirebaseFireStoreConstants.BRAND).document(docsID).delete()
+        final String docsID = (String) getIntent().getSerializableExtra("categoryId");
+        db.collection(FirebaseFireStoreConstants.CATEGORY).document(docsID).delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(UpdateBrandActivity.this, "Xóa thành công", LENGTH_SHORT).show();
+                        Toast.makeText(UpdateCategoryActivity.this, "Xóa thành công", LENGTH_SHORT).show();
                         finish();
-                        startActivity(new Intent(UpdateBrandActivity.this, ViewAllBrandActivity.class));
+                        startActivity(new Intent(UpdateCategoryActivity.this, ViewAllCategoryActivity.class));
                     }
                 });
     }
 
+    public void goBack(View view) {
+        finish();
+    }
 }

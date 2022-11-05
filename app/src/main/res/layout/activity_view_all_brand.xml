@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".Admin.ViewAllBrandActivity">
+    tools:context=".Admin.Brand.ViewAllBrandActivity">
 
     <RelativeLayout
         android:id="@+id/toolbar"
@@ -18,8 +18,8 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_centerVertical="true"
-            android:onClick="goBack"
             android:layout_marginStart="20dp"
+            android:onClick="goBack"
             android:src="@drawable/ic_back_arrow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:tint="@color/black" />

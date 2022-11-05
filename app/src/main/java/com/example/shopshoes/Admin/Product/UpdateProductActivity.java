@@ -1,4 +1,4 @@
-package com.example.shopshoes.Admin;
+package com.example.shopshoes.Admin.Product;
 
 import static android.content.ContentValues.TAG;
 import static android.widget.Toast.LENGTH_SHORT;
@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -26,7 +25,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.shopshoes.Adapter.ProductsAdapter;
 import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
 import com.example.shopshoes.Model.Product;
 import com.example.shopshoes.Model.Utils;
@@ -37,23 +35,17 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.example.shopshoes.databinding.ActivityUpdateProductBinding;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Map;
-
 public class UpdateProductActivity extends AppCompatActivity {
-    ActivityUpdateProductBinding binding;
+//    ActivityUpdateProductBinding binding;
     String[] categoriesList = {"", "Dép", "Giày"};
     String[] brandsList = {"", "Nike", "Adidas"};
     String[] sizeTypeList = {"", "Nam", "Nữ"};
@@ -85,8 +77,8 @@ public class UpdateProductActivity extends AppCompatActivity {
         colRefProducts = db.collection(FirebaseFireStoreConstants.PRODUCTS);
 //        getProduct();
 
-        binding = ActivityUpdateProductBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+//        binding = ActivityUpdateProductBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
 
         initAll();
 

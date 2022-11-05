@@ -2,6 +2,7 @@ package com.example.shopshoes.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,26 +11,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.shopshoes.Activity.OrderDetailActivity;
-import com.example.shopshoes.Admin.UpdateProductActivity;
-import com.example.shopshoes.Model.Product;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shopshoes.Admin.Oder.CustomerOderActivity;
+import com.example.shopshoes.Admin.Oder.CustomerOderDetailActivity;
 import com.example.shopshoes.Model.Order;
 
 import com.example.shopshoes.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder> {
     List<Order> orderList;
     Activity context;
+    boolean isAdmin;
 
-    public OrderAdapter(List<Order> orderList, Activity context) {
+    public OrderAdapter(List<Order> orderList, Activity context, boolean isAdmin) {
         this.orderList = orderList;
         this.context = context;
+        this.isAdmin = isAdmin;
     }
 
     @NonNull
@@ -57,10 +59,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, OrderDetailActivity.class);
-                intent.putExtra("orderID", order.getId());
-                intent.putExtra("order",order);
-                context.startActivity(intent);
+                if (isAdmin) {
+                    Intent intent = new Intent(context, CustomerOderDetailActivity.class);
+                    intent.putExtra("id", order.getId());
+//                    Log.d("showId", order.getId());
+                    intent.putExtra("order",order);
+                    context.startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(context, OrderDetailActivity.class);
+                    intent.putExtra("orderID", order.getId());
+                    intent.putExtra("order",order);
+                    context.startActivity(intent);
+                }
             }
         });
     }
