@@ -52,7 +52,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 //                Picasso.get().load(order.getProductArrayList().get(0).getPhotoUrl()).placeholder(R.drawable.no_background_icon).into(holder.orderImg);
 //            }
 //        }
-        holder.quality.setText("Số lượng sản phẩm "+order.getProductArrayList().get(0).getQuantityInCart());
+        holder.quality.setText("Số lượng sản phẩm "+order.getProductArrayList().size());
         holder.name.setText("Trạng thái "+order.getStatus());
         holder.date.setText(order.getDateOfOrder());
         holder.price.setText(order.getTotalPrice()+" VND");

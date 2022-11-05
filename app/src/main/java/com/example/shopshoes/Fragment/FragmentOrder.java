@@ -118,6 +118,7 @@ public class FragmentOrder extends Fragment  {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                orderArrayList.clear();
                 for (DataSnapshot post : snapshot.getChildren()){
                     Order order = post.getValue(Order.class);
                     orderArrayList.add(order);
@@ -148,4 +149,5 @@ public class FragmentOrder extends Fragment  {
             mAdapter.notifyDataSetChanged();
         }
     }
+
 }

@@ -272,7 +272,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@drawable/text_input_bg"
                         android:lines="4"
-                        android:padding="15dp"
+                        android:padding="5dp"
                         android:textSize="16sp" />
 
                     <TextView
@@ -307,6 +307,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
+        android:gravity="center"
         android:background="@color/red">
 
         <TextView
