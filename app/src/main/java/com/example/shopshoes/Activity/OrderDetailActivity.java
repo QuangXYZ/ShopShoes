@@ -62,7 +62,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         address = findViewById(R.id.order_address_view);
         comment = findViewById(R.id.order_comment_view);
         recyclerView = findViewById(R.id.product_list_order);
-//        delete = findViewById(R.id.order_delete);
+        delete = findViewById(R.id.order_delete);
         img = findViewById(R.id.order_back);
         myRootRef = FirebaseDatabase.getInstance().getReference();
         ID = getIntent().getExtras().getString("orderID");

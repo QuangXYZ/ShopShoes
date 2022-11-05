@@ -66,7 +66,6 @@ public class CustomerOderDetailActivity extends AppCompatActivity {
         img = findViewById(R.id.order_back);
         myRootRef = FirebaseDatabase.getInstance().getReference();
         ID = getIntent().getExtras().getString("id");
-        Log.d("ShowId", ID);
         getAdminOrders();
     }
 
