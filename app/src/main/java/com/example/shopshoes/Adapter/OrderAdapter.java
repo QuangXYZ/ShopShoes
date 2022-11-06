@@ -55,6 +55,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         holder.quality.setText("Số lượng sản phẩm "+order.getProductArrayList().size());
         holder.name.setText("Trạng thái "+order.getStatus());
         holder.date.setText(order.getDateOfOrder());
+        holder.userId.setText("Mã Khách hàng "+order.getIdUser());
         holder.price.setText(order.getTotalPrice()+" VND");
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +65,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                     intent.putExtra("id", order.getId());
 //                    Log.d("showId", order.getId());
                     intent.putExtra("order",order);
+                    intent.putExtra("idCustomer", order.getIdUser());
                     context.startActivity(intent);
                 }
                 else {
@@ -84,12 +86,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout layout;
         ImageView orderImg;
-        TextView name,price,date,quality;
+        TextView name,price,date,quality, userId;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             layout = itemView.findViewById(R.id.order_layout);
             orderImg = itemView.findViewById(R.id.order_img);
             name = itemView.findViewById(R.id.order_name);
+            userId = itemView.findViewById(R.id.order_idCutomer);
             date = itemView.findViewById(R.id.order_date);
             price = itemView.findViewById(R.id.order_total_price);
             quality = itemView.findViewById(R.id.order_quantity);

@@ -27,6 +27,7 @@ public class CustomerOderActivity extends AppCompatActivity {
     private OrderAdapter mAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Order> orderArrayList;
+    private ArrayList<String> idUser;
     private TextView noOder;
     DatabaseReference myRootRef;
     private ProgressBar progressBar;

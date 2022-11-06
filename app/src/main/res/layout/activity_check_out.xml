@@ -235,7 +235,6 @@
             android:id="@+id/checkout_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:text="Xác nhận đặt hàng"
             android:textColor="@color/white"
             android:textSize="23sp"
