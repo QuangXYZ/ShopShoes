@@ -52,13 +52,14 @@
             />
 
     </FrameLayout>
+
     <TextView
         android:id="@+id/username_drawer_admin"
-        android:text="User Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textStyle="bold"
+        android:text="Admin"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textStyle="bold" />
 </LinearLayout>

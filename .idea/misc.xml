@@ -55,12 +55,15 @@
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/drawable-v24/ic_search.xml" value="0.1545" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/drawable/button_shape.xml" value="0.1" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1545" />
+        <entry key="..\:/src/Android/ShopShoes/app/src/main/res/drawable/side_nav_bar.xml" value="0.1745" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/layout-w936dp/content_main.xml" value="0.13558743169398907" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/layout-w936dp/content_main_admin.xml" value="0.13387978142076504" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/layout-w936dp/content_main_admin1.xml" value="0.13558743169398907" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/layout/activity_admin_home.xml" value="0.25416666666666665" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/layout/activity_admin_login.xml" value="0.14224137931034483" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/layout/activity_all_products.xml" value="0.25416666666666665" />
+        <entry key="..\:/src/Android/ShopShoes/app/src/main/res/layout/activity_all_products_user.xml" value="0.25416666666666665" />
+        <entry key="..\:/src/Android/ShopShoes/app/src/main/res/layout/activity_cart.xml" value="0.25416666666666665" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/layout/activity_check_out.xml" value="0.25416666666666665" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/layout/activity_customer_oder.xml" value="0.2" />
         <entry key="..\:/src/Android/ShopShoes/app/src/main/res/layout/activity_customer_oder2.xml" value="0.25052083333333336" />

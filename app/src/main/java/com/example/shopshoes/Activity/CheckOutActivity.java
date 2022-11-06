@@ -132,6 +132,9 @@ public class CheckOutActivity extends AppCompatActivity {
         order.setTotalPrice(order.getTotalPrice()+10);
         order.setAddress(street);
         order.setComments(comments);
+        //Y thêm userId
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        order.setIdUser(currentUserId);
 
         root.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(key).setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

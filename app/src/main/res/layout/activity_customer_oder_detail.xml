@@ -21,6 +21,7 @@
             android:layout_height="@dimen/back_arrow_dimen"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
+            android:onClick="goBack"
             android:src="@drawable/ic_back_arrow"
             app:tint="@color/black" />
 

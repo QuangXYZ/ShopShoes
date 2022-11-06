@@ -42,8 +42,8 @@ public class CustomerOderDetailActivity extends AppCompatActivity {
     private ImageView img;
 
 
-    private TextView orderID,orderPrice,orderstatus,orderDate,orderQuantity,address,comment;
-    private String ID;
+    private TextView orderID, orderPrice, orderstatus, orderDate, orderQuantity, address, comment;
+    private String ID, idCustomer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,8 @@ public class CustomerOderDetailActivity extends AppCompatActivity {
         initAll();
         confirmStatus();
     }
-    private void initAll(){
+
+    private void initAll() {
         orderID = findViewById(R.id.orderID);
         orderstatus = findViewById(R.id.order_detail_status);
         orderDate = findViewById(R.id.order_detail_date);
@@ -66,39 +67,40 @@ public class CustomerOderDetailActivity extends AppCompatActivity {
         img = findViewById(R.id.order_back);
         myRootRef = FirebaseDatabase.getInstance().getReference();
         ID = getIntent().getExtras().getString("id");
-        getAdminOrders();
+        idCustomer = getIntent().getExtras().getString("idCustomer");
+        getOrderFromFirebase();
+//        getAdminOrders();
     }
 
-    public void getAdminOrders() {
-//        progressBar.setVisibility(View.VISIBLE);
-        myRootRef.child("Order").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        String id=child.getKey();
-                        getOrderFromFirebase(id);
-                    }
-                } else {
-//                    noOder.setVisibility(View.VISIBLE);
-//                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(CustomerOderDetailActivity.this, "k có sản phẩm", Toast.LENGTH_SHORT).show();
-                }
-            }
+//    public void getAdminOrders() {
+////        progressBar.setVisibility(View.VISIBLE);
+//        myRootRef.child("Order").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+//                        String id = child.getKey();
+//                        getOrderFromFirebase(id);
+//                    }
+//                } else {
+////                    noOder.setVisibility(View.VISIBLE);
+////                    progressBar.setVisibility(View.GONE);
+//                    Toast.makeText(CustomerOderDetailActivity.this, "k có sản phẩm", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+////                progressBar.setVisibility(View.GONE);
+//                Toast.makeText(CustomerOderDetailActivity.this, "Lỗi", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-//                progressBar.setVisibility(View.GONE);
-                Toast.makeText(CustomerOderDetailActivity.this, "Lỗi", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    private void getOrderFromFirebase(String id){
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private void getOrderFromFirebase() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("Order").child(id).child(ID);
+        DatabaseReference databaseReference = database.getReference("Order").child(idCustomer).child(ID);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -109,21 +111,22 @@ public class CustomerOderDetailActivity extends AppCompatActivity {
                     orderstatus.setText(order.getStatus());
                     orderDate.setText(order.getDateOfOrder());
                     orderQuantity.setText(String.valueOf(order.getProductArrayList().size()));
-                    orderPrice.setText(String.valueOf(order.getTotalPrice()+10000));
+                    orderPrice.setText(String.valueOf(order.getTotalPrice() + 10000));
                     address.setText(order.getAddress());
                     comment.setText(order.getComments());
                 }
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(CustomerOderDetailActivity.this,DividerItemDecoration.VERTICAL);
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(CustomerOderDetailActivity.this, DividerItemDecoration.VERTICAL);
                 recyclerView.addItemDecoration(dividerItemDecoration);
-                mAdapter = new OrderProductDetailAdapter(productArrayList,CustomerOderDetailActivity.this);
+                mAdapter = new OrderProductDetailAdapter(productArrayList, CustomerOderDetailActivity.this);
                 recyclerView.setNestedScrollingEnabled(false);
                 recyclerView.setLayoutManager(new LinearLayoutManager(CustomerOderDetailActivity.this));
                 recyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(CustomerOderDetailActivity.this,"Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(CustomerOderDetailActivity.this, "Error", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -133,16 +136,10 @@ public class CustomerOderDetailActivity extends AppCompatActivity {
         confirmStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                HashMap status = new HashMap();
-//                String setStatus = "Đơn đã xác nhận";
-//                status.put("status",setStatus);
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference databaseReference = database.getReference("Order").child("Ru1ipgzBcUcsO0YCvkmenii0mZs1").child("-NG1Kb5ftg8KGux1nher");
+                DatabaseReference databaseReference = database.getReference("Order").child(idCustomer).child(ID + "/status");
 
-                Order order = new Order();
-                order.setStatus("Đơn đã xác nhận");
-
-                databaseReference.setValue(order, new DatabaseReference.CompletionListener() {
+                databaseReference.setValue("Đơn đã xác nhận", new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                         Toast.makeText(CustomerOderDetailActivity.this, "Xác nhận đơn hàng thành công", Toast.LENGTH_SHORT).show();
@@ -150,5 +147,9 @@ public class CustomerOderDetailActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    public void goBack(View view) {
+        finish();
     }
 }
