@@ -12,7 +12,6 @@ public class Order implements Serializable {
     private double totalPrice;
     private ArrayList<Product> productArrayList;
 
-
     public Order(String id, String status, String address, String street, String comments, String dateOfOrder, double totalPrice, ArrayList<Product> productArrayList, String idUser) {
         this.id = id;
         this.status = status;

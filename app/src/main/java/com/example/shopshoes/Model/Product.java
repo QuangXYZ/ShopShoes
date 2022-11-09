@@ -3,9 +3,19 @@ package com.example.shopshoes.Model;
 import java.io.Serializable;
 
 public class Product implements Serializable {
-    String productId,name,category,brand,sizeType,size,color,stock,photoUrl,description;
+    String productId,name,category,brand,sizeType,size,color,photoUrl,description;
     int quantityInCart;
-    int price;
+    int price,stock;
+    int sold = 0;
+    public int getSold() {
+        return sold;
+    }
+
+    public void setSold(int sold) {
+        this.sold = sold;
+    }
+
+
 
     public Product() {
     }
@@ -90,11 +100,11 @@ public class Product implements Serializable {
         this.color = color;
     }
 
-    public String getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(String stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
 
@@ -115,11 +125,13 @@ public class Product implements Serializable {
                 ", brand='" + brand + '\'' +
                 ", sizeType='" + sizeType + '\'' +
                 ", size='" + size + '\'' +
-                ", price='" + price + '\'' +
                 ", color='" + color + '\'' +
                 ", stock='" + stock + '\'' +
                 ", photoUrl='" + photoUrl + '\'' +
                 ", description='" + description + '\'' +
+                ", quantityInCart=" + quantityInCart +
+                ", price=" + price +
+                ", sold=" + sold +
                 '}';
     }
 }

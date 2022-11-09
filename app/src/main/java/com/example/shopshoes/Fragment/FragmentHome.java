@@ -3,6 +3,7 @@ package com.example.shopshoes.Fragment;
 import static android.content.ContentValues.TAG;
 import static android.widget.Toast.LENGTH_SHORT;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,10 +19,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shopshoes.Activity.FilterSearchActivity;
 import com.example.shopshoes.Adapter.ProductsAdapter;
 import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
 import com.example.shopshoes.Model.Product;
@@ -52,7 +55,7 @@ public class FragmentHome extends Fragment {
     private ProgressBar progressBar;
     private TextView noJokeText;
     private EditText nameInput;
-    private FirebaseFirestore firestore;
+    private ImageView filer;
     FragmentActivity c;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -105,6 +108,7 @@ public class FragmentHome extends Fragment {
         progressBar = view.findViewById(R.id.spin_progress_bar);
         noJokeText = view.findViewById(R.id.no_product);
         nameInput = view.findViewById(R.id.name_input);
+        filer = view.findViewById(R.id.filters_btn);
         myRootRef = FirebaseDatabase.getInstance().getReference();
 
         c = getActivity();
@@ -121,6 +125,13 @@ public class FragmentHome extends Fragment {
 
 
         searchFunc();
+        filer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), FilterSearchActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 

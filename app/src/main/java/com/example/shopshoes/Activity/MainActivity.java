@@ -100,6 +100,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
             Toast.makeText(this, "Logout successful", Toast.LENGTH_SHORT).show();
         }
+        else if (id == R.id.nav_account) {
+            Intent intent = new Intent(MainActivity.this, UserManage.class);
+            startActivity(intent);
+
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

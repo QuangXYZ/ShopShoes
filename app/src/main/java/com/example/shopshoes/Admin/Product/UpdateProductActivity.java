@@ -249,7 +249,7 @@ public class UpdateProductActivity extends AppCompatActivity {
                     product.setSize(size);
                     product.setPrice(Integer.parseInt(price));
                     product.setColor(color);
-                    product.setStock(stock);
+                    product.setStock(Integer.parseInt(stock));
                     product.setDescription(desc);
 //                    updateDataProduct();
                     UploadImage();
