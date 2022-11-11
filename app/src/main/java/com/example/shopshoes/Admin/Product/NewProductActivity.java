@@ -324,7 +324,7 @@ public class NewProductActivity extends AppCompatActivity {
                     product.setSize(size);
                     product.setPrice(Integer.parseInt(price));
                     product.setColor(color);
-                    product.setStock(stock);
+                    product.setStock(Integer.parseInt(stock));
                     product.setDescription(desc);
                     UploadImage();
                 }

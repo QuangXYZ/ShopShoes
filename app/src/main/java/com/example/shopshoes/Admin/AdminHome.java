@@ -61,6 +61,10 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
             startActivity(intent);
             Toast.makeText(this, "Logout successful", Toast.LENGTH_SHORT).show();
         }
+        else if (id == R.id.nav_customer_statistic) {
+            Intent intent = new Intent(AdminHome.this, statisticActivity.class);
+            startActivity(intent);
+        }
         else if (id == R.id.nav_add_category) {
             Intent intent = new Intent(AdminHome.this, NewCategoryActivity.class);
             startActivity(intent);

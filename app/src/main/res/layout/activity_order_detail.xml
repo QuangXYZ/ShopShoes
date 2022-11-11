@@ -186,11 +186,6 @@
                         android:text="10.000 VND"
                         android:textColor="#CB111111"
                         android:textSize="15sp" />
-
-
-
-
-
                 </RelativeLayout>
 
 

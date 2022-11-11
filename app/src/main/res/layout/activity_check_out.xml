@@ -14,14 +14,14 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/checkout_back_btn"
-        android:layout_width="@dimen/back_arrow_dimen"
-        android:layout_height="@dimen/back_arrow_dimen"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="20dp"
-        android:src="@drawable/ic_back_arrow"
-        app:tint="@color/black" />
+        <ImageView
+            android:id="@+id/checkout_back_btn"
+            android:layout_width="@dimen/back_arrow_dimen"
+            android:layout_height="@dimen/back_arrow_dimen"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_back_arrow"
+            app:tint="@color/black" />
 
         <TextView
             android:id="@+id/medicine_name"
