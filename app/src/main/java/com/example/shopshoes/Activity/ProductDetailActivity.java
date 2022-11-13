@@ -29,7 +29,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private CardView addToCartBtn;
     private ImageView productImg;
     private TextView plusBTn,minusBtn,quantityTV;
-    private TextView productName,productDescription,price;
+    private TextView productName,productDescription,price,productBrand,productCategory, productSize,productColor;
 
     Product product;
 
@@ -41,12 +41,10 @@ public class ProductDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
-
         initAll();
         ClickListeners();
         productID = getIntent().getExtras().getString("productID");
         product= (Product) getIntent().getSerializableExtra("product");
-
 
         if(product.getPhotoUrl()!=null){
             if(!product.getPhotoUrl().equals("")){
@@ -56,10 +54,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         productName.setText(product.getName());
         productDescription.setText(product.getDescription());
         price.setText(product.getPrice()+"VND");
+        productBrand.setText(product.getBrand());
+        productColor.setText(product.getColor());
+        productCategory.setText(product.getCategory());
+        productSize.setText(product.getSize());
+
 
     }
-
-
 
     private void ClickListeners() {
         plusBTn.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +117,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         productName=findViewById(R.id.product_name);
         price=findViewById(R.id.product_price);
         productDescription=findViewById(R.id.product_description);
+        productBrand=findViewById(R.id.product_detail_brand);
+        productCategory=findViewById(R.id.product_detail_category);
+        productColor=findViewById(R.id.product_detail_color);
+        productSize=findViewById(R.id.product_detail_size);
+
+
 
         product=new Product();
 

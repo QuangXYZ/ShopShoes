@@ -18,18 +18,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shopshoes.Activity.FilterSearchActivity;
 import com.example.shopshoes.Admin.Brand.UpdateBrandActivity;
 import com.example.shopshoes.Model.Brand;
+import com.example.shopshoes.Model.Category;
 import com.example.shopshoes.Model.Order;
 import com.example.shopshoes.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterBrandAdapter extends RecyclerView.Adapter<FilterBrandAdapter.MyViewHolder> {
-    ArrayList<Brand>  brandList;
+public class FilterCategoryAdapter extends RecyclerView.Adapter<FilterCategoryAdapter.MyViewHolder> {
+    ArrayList<Category>  categoryList;
     Activity context;
 
-    public FilterBrandAdapter(ArrayList<Brand> brandList, Activity context) {
-        this.brandList = brandList;
+
+    public FilterCategoryAdapter(ArrayList<Category> categoryList, Activity context) {
+        this.categoryList = categoryList;
         this.context = context;
     }
 
@@ -39,15 +41,15 @@ public class FilterBrandAdapter extends RecyclerView.Adapter<FilterBrandAdapter.
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.single_item_category, parent, false);
 
-        return new FilterBrandAdapter.MyViewHolder(itemView);
+        return new FilterCategoryAdapter.MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Brand brand = brandList.get(position);
-        holder.nameBrand.setText(brand.getBrandName());
-        for (int i=0;i<FilterSearchActivity.Clickbrand.size();i++){
-            if (brand.getBrandId().equals(FilterSearchActivity.Clickbrand.get(i).getBrandId())){
+        Category category = categoryList.get(position);
+        holder.nameCategory.setText(category.getCategoryName());
+        for (int i=0;i<FilterSearchActivity.Clickcategory.size();i++){
+            if (category.getCategoryId().equals(FilterSearchActivity.Clickcategory.get(i).getCategoryId())){
                 holder.cardView.setCardBackgroundColor(Color.argb(255, 255, 193, 7));
                 holder.check = true;
             }
@@ -58,16 +60,16 @@ public class FilterBrandAdapter extends RecyclerView.Adapter<FilterBrandAdapter.
             public void onClick(View view) {
                 if (!holder.check) {
                     holder.cardView.setCardBackgroundColor(Color.argb(255, 255, 193, 7));
-                    FilterSearchActivity.Clickbrand.add(brand);
+                    FilterSearchActivity.Clickcategory.add(category);
                     holder.check = true;
                 }
                 else{
                     holder.cardView.setCardBackgroundColor(Color.WHITE);
-                    for (int i = 0; i < FilterSearchActivity.Clickbrand.size(); i++){
-                        if (FilterSearchActivity.Clickbrand.get(i).getBrandId().equals(brand.getBrandId()))
-                            FilterSearchActivity.Clickbrand.remove(i);
+                    for (int i = 0; i < FilterSearchActivity.Clickcategory.size(); i++){
+                        if (FilterSearchActivity.Clickcategory.get(i).getCategoryId().equals(category.getCategoryId()))
+                            FilterSearchActivity.Clickcategory.remove(i);
                     }
-                     holder.check = false;
+                    holder.check = false;
                 }
             }
         });
@@ -75,17 +77,17 @@ public class FilterBrandAdapter extends RecyclerView.Adapter<FilterBrandAdapter.
 
     @Override
     public int getItemCount() {
-        return brandList.size();
+        return categoryList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        TextView nameBrand;
+        TextView nameCategory;
         Boolean check = false;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.Filter_layout);
-            nameBrand = itemView.findViewById(R.id.Filter_name);
+            nameCategory = itemView.findViewById(R.id.Filter_name);
         }
     }
 }

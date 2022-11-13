@@ -230,7 +230,11 @@
         android:gravity="center"
         android:layout_alignParentBottom="true"
         android:background="@color/orange">
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
         <TextView
             android:id="@+id/checkout_btn"
             android:layout_width="wrap_content"
@@ -246,7 +250,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/checkout_btn"
             android:src="@drawable/ic_baseline_check_24" />
-
+        </LinearLayout>
     </RelativeLayout>
 
     </RelativeLayout>
