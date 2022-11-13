@@ -48,6 +48,8 @@ public class statisticActivity extends AppCompatActivity {
     private ArrayList<Product> productBestSellerArrayList;
     private OrderProductDetailAdapter mAdapter;
     private RecyclerView recyclerView;
+    private OrderProductDetailAdapter mAdapterB;
+    private RecyclerView recyclerViewB;
 
 
 
@@ -80,6 +82,14 @@ public class statisticActivity extends AppCompatActivity {
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
+
+        recyclerViewB = findViewById(R.id.statistic_list_product_bad_sell);
+        mAdapterB = new OrderProductDetailAdapter(productArrayList, this);
+        recyclerViewB.addItemDecoration(dividerItemDecoration);
+        recyclerViewB.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewB.setNestedScrollingEnabled(false);
+        recyclerViewB.setAdapter(mAdapterB);
+        mAdapterB.notifyDataSetChanged();
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,7 +147,6 @@ public class statisticActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
                         if (task.isSuccessful()) {
                             QuerySnapshot snapshot = task.getResult();
                             for (QueryDocumentSnapshot document : snapshot) {
@@ -145,6 +154,9 @@ public class statisticActivity extends AppCompatActivity {
                                 Product product = new Product();
                                 product = document.toObject(Product.class);
                                 productArrayList.add(product);
+                                totalProductWarehouse.setText(String.valueOf(Integer.parseInt(totalProductWarehouse.getText().toString())+product.getStock()));
+                                totalWarehousePrice.setText(String.valueOf(Integer.parseInt(totalWarehousePrice.getText().toString())+product.getStock()*product.getPrice()));
+
                             }
                             int s = productArrayList.size();
                             for (int i=0;i<5&&i<s ;i++){
@@ -159,9 +171,8 @@ public class statisticActivity extends AppCompatActivity {
                                 productBestSellerArrayList.add(productArrayList.get(index));
                                 productArrayList.remove(index);
                             }
-                            Toast.makeText(statisticActivity.this,productBestSellerArrayList.get(0).toString(), Toast.LENGTH_LONG).show();
-
                             mAdapter.notifyDataSetChanged();
+                            mAdapterB.notifyDataSetChanged();
 
                         }
                     }

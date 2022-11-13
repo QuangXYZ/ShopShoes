@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 import com.example.shopshoes.Activity.FilterSearchActivity;
 import com.example.shopshoes.Adapter.ProductsAdapter;
 import com.example.shopshoes.Constants.FirebaseFireStoreConstants;
+import com.example.shopshoes.Model.Brand;
+import com.example.shopshoes.Model.Category;
 import com.example.shopshoes.Model.Product;
 import com.example.shopshoes.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,6 +50,7 @@ import java.util.ArrayList;
  */
 public class FragmentHome extends Fragment {
 
+    final static int REQUEST_CODE_FILTER = 1;
     private ProductsAdapter mAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Product> productArrayList;
@@ -57,6 +61,9 @@ public class FragmentHome extends Fragment {
     private EditText nameInput;
     private ImageView filer;
     FragmentActivity c;
+    ArrayList<Brand> brandArrayList = new ArrayList<>();
+    ArrayList<Category> categoryArrayList = new ArrayList<>();
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -129,7 +136,7 @@ public class FragmentHome extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), FilterSearchActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_CODE_FILTER);
             }
         });
         return view;
@@ -187,6 +194,7 @@ public class FragmentHome extends Fragment {
     public void getDataFromFirebase() {
         progressBar.setVisibility(View.VISIBLE);
         final int[] counter = {0};
+        productArrayList.clear();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection(FirebaseFireStoreConstants.PRODUCTS);
         reference.get()
@@ -226,6 +234,86 @@ public class FragmentHome extends Fragment {
             recyclerView.setVisibility(View.GONE);
             noJokeText.setVisibility(View.VISIBLE);
             mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_FILTER){
+            if (resultCode == getActivity().RESULT_OK){
+                brandArrayList = ( ArrayList<Brand>)data.getSerializableExtra("Brand");
+                categoryArrayList = ( ArrayList<Category>)data.getSerializableExtra("Category");
+
+                if (brandArrayList.size()==0&&categoryArrayList.size()==0) {getDataFromFirebase(); return;}
+                progressBar.setVisibility(View.VISIBLE);
+                final int[] counter = {0};
+                productArrayList.clear();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                CollectionReference reference = db.collection(FirebaseFireStoreConstants.PRODUCTS);
+                reference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    QuerySnapshot snapshot = task.getResult();
+                                    for (QueryDocumentSnapshot document : snapshot) {
+                                        Log.d(TAG, document.getId() + " => " + document.getData());
+                                        Product product = new Product();
+                                        product = document.toObject(Product.class);
+                                        if(brandArrayList.size()>0&&categoryArrayList.size()>0) {
+                                            for (int i = 0; i < brandArrayList.size(); i++) {
+                                                if (product.getBrand().equals(brandArrayList.get(i).getBrandName())) {
+                                                    for (int j = 0; j < categoryArrayList.size(); j++)
+                                                        if (product.getCategory().equals(categoryArrayList.get(j).getCategoryName())) {
+                                                            productArrayList.add(product);
+                                                            counter[0]++;
+                                                        }
+                                                }
+                                            }
+                                        }
+                                        else if (brandArrayList.size()>0){
+                                            for (int i = 0; i < brandArrayList.size(); i++) {
+                                                if (product.getBrand().equals(brandArrayList.get(i).getBrandName())) {
+                                                    productArrayList.add(product);
+                                                    counter[0]++;
+                                                    }
+                                                }
+                                        }
+                                        else if (categoryArrayList.size()>0){
+                                            for (int i = 0; i < categoryArrayList.size(); i++) {
+                                                if (product.getCategory().equals(categoryArrayList.get(i).getCategoryName())) {
+                                                    productArrayList.add(product);
+                                                    counter[0]++;
+                                                }
+                                            }
+                                        }
+
+
+                                        Log.d("ShowEventInfo:", product.toString());
+                                    }
+                                    if (productArrayList.size()>0){
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        noJokeText.setVisibility(View.GONE);
+
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+                                    else{
+                                        recyclerView.setVisibility(View.GONE);
+                                        noJokeText.setVisibility(View.VISIBLE);
+
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+
+                                } else {
+                                    noJokeText.setVisibility(View.VISIBLE);
+                                    progressBar.setVisibility(View.GONE);
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                    Toast.makeText(c ,"Error" + task.getException() , LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                progressBar.setVisibility(View.GONE);
+            }
         }
     }
 }

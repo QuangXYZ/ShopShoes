@@ -306,7 +306,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="400dp"
                 android:layout_marginBottom="10dp"
                 android:elevation="10dp"
                 app:cardCornerRadius="10dp">
@@ -321,7 +321,7 @@
                         android:id="@+id/card5_t2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Top 10 sản phẩm bán chạy "
+                        android:text="Top 5 sản phẩm bán chạy "
                         android:textColor="#77000000"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -331,13 +331,39 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:listitem="@layout/single_product_order_item" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="10dp"
+                app:cardCornerRadius="10dp">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/card6_t2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Top 5 sản phẩm không bán chạy "
+                        android:textColor="#77000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/statistic_list_product_bad_sell"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/single_product_order_item" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 
-
     </ScrollView>
-
 
 </RelativeLayout>

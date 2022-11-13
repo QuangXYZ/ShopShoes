@@ -117,7 +117,7 @@ public class UpdateProductActivity extends AppCompatActivity {
         nameEt.setText(product.getName());
         colorEt.setText(product.getColor());
         priceEt.setText(String.valueOf(product.getPrice()));
-        stockEt.setText(product.getStock());
+        stockEt.setText(String.valueOf(product.getStock()));
         descriptionEt.setText(product.getDescription());
 
 //        binding.productNameUpdate.setText(product.getName());
