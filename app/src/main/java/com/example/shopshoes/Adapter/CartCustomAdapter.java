@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -114,7 +115,7 @@ public class CartCustomAdapter extends RecyclerView.Adapter<CartCustomAdapter.Vi
         TextView plus, minus;
         ImageView image,cross;
         TextView name, price, quantity;
-        RelativeLayout parent;
+        CardView parent;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -24,7 +24,6 @@ public class OrderProductDetailAdapter extends RecyclerView.Adapter<OrderProduct
     Activity context;
 
     public OrderProductDetailAdapter(List<Product> productList, Activity context) {
-        this.productList = new ArrayList<>() ;
         this.productList = productList;
         this.context = context;
     }
@@ -63,7 +62,7 @@ public class OrderProductDetailAdapter extends RecyclerView.Adapter<OrderProduct
     }
     @Override
     public int getItemCount() {
-        return productList.size();
+        return productList == null ? 0 : productList.size();
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout layout;

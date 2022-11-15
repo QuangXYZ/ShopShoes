@@ -19,6 +19,10 @@
             android:icon="@drawable/ic_baseline_view_list"
             android:title="Đơn hàng" />
         <item
+            android:id="@+id/nav_customer_bill"
+            android:icon="@drawable/ic_baseline_assignment_turned_in_24"
+            android:title="Hóa đơn" />
+        <item
             android:id="@+id/nav_customer_statistic"
             android:icon="@drawable/ic_baseline_table_chart_24"
             android:title="Thống kê" />

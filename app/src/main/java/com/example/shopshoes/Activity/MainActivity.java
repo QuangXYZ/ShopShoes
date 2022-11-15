@@ -88,12 +88,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_cart) {
             Intent intent = new Intent(MainActivity.this, CartActivity.class);
             startActivity(intent);
+
         }
         else if (id == R.id.nav_order) {
             if (currentFragment != FRAGMENT_ORDER) {
                 replaceFagment(new FragmentOrder());
                 currentFragment = FRAGMENT_ORDER;
             }
+        }
+        else if (id == R.id.nav_bill) {
+            Intent intent = new Intent(MainActivity.this, BillActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.nav_logout) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);

@@ -153,6 +153,7 @@ public class CustomerOderDetailActivity extends AppCompatActivity {
 //                        Toast.makeText(CustomerOderDetailActivity.this, "Xác nhận đơn hàng thành công", Toast.LENGTH_SHORT).show();
 //                    }
 //                });
+                DatabaseReference databaseReferenceBill = database.getReference("Bill").child(idCustomer).child(ID);
                 DatabaseReference databaseReference = database.getReference("Order").child(idCustomer).child(ID);
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -182,16 +183,21 @@ public class CustomerOderDetailActivity extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
-                                            Toast.makeText(CustomerOderDetailActivity.this, "Sửa thông tin thành công", LENGTH_SHORT);
+                                            Toast.makeText(CustomerOderDetailActivity.this, "Đang xử lý ... ", LENGTH_SHORT);
                                         }
                                     });
 
                         }
                         order.setStatus("Đơn đã xác nhận");
-                        databaseReference.setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        databaseReference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(CustomerOderDetailActivity.this, "Xác nhận đơn hàng thành công", Toast.LENGTH_SHORT).show();
+                                databaseReferenceBill.setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(CustomerOderDetailActivity.this, "Xác nhận đơn hàng thành công", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

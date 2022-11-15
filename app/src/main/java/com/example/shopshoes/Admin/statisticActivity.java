@@ -148,6 +148,7 @@ public class statisticActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            productArrayList.clear();
                             QuerySnapshot snapshot = task.getResult();
                             for (QueryDocumentSnapshot document : snapshot) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());

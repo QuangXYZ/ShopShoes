@@ -1,4 +1,4 @@
-package com.example.shopshoes.Admin.Oder;
+package com.example.shopshoes.Admin.Bill;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +11,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shopshoes.Activity.BillActivity;
 import com.example.shopshoes.Adapter.OrderAdapter;
+import com.example.shopshoes.Admin.Oder.CustomerOderActivity;
 import com.example.shopshoes.Model.Order;
 import com.example.shopshoes.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,7 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class CustomerOderActivity extends AppCompatActivity {
+public class CustomerBillActivity extends AppCompatActivity {
+
     private OrderAdapter mAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Order> orderArrayList;
@@ -36,9 +39,9 @@ public class CustomerOderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_oder);
+        setContentView(R.layout.activity_bill);
         initAll();
-        getAdminOrders();
+
     }
 
     private void initAll() {
@@ -48,23 +51,22 @@ public class CustomerOderActivity extends AppCompatActivity {
         noOder = findViewById(R.id.no_customer_order);
         myRootRef = FirebaseDatabase.getInstance().getReference();
 
-        mAdapter = new OrderAdapter(orderArrayList, CustomerOderActivity.this, true);
+        mAdapter = new OrderAdapter(orderArrayList, CustomerBillActivity.this, true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mAdapter);
+        getAdminOrders();
         mAdapter.notifyDataSetChanged();
-
     }
-
     public void getAdminOrders() {
         orderArrayList.clear();
         progressBar.setVisibility(View.VISIBLE);
-        myRootRef.child("Order").addListenerForSingleValueEvent(new ValueEventListener() {
+        myRootRef.child("Bill").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        String id=child.getKey();
+                        String id = child.getKey();
                         getDataFromFirebase(id);
                     }
                 } else {
@@ -78,34 +80,32 @@ public class CustomerOderActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
             }
         });
-
     }
+        public void getDataFromFirebase(String id) {
+            progressBar.setVisibility(View.VISIBLE);
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference = database.getReference("Bill").child(id);
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-    public void getDataFromFirebase(String id) {
-        progressBar.setVisibility(View.VISIBLE);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("Order").child(id);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot post : snapshot.getChildren()){
-                    Order order = post.getValue(Order.class);
-                    orderArrayList.add(order);
+                    for (DataSnapshot post : snapshot.getChildren()){
+                        Order order = post.getValue(Order.class);
+                        orderArrayList.add(order);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                    setData();
+                    progressBar.setVisibility(View.GONE);
                 }
-                mAdapter.notifyDataSetChanged();
-                setData();
-                progressBar.setVisibility(View.GONE);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                noOder.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(CustomerOderActivity.this,"Error", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    noOder.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(CustomerBillActivity.this,"Error", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
 
 
     private void setData() {

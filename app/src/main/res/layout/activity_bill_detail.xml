@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Thông tin đơn hàng"
+            android:text="Thông tin hóa đơn"
             android:textColor="@color/black"
             android:textSize="@dimen/toolbar_text_size"
             android:textStyle="bold" />
@@ -95,8 +95,8 @@
                         android:layout_below="@+id/card1_t1"
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="10dp"
-                        android:text="Đang chờ xử lý"
-                        android:textColor="@color/red"
+                        android:text="Đơn đã xác nhận"
+                        android:textColor="@color/green"
                         android:textSize="15sp" />
 
 
@@ -212,10 +212,10 @@
                         android:textStyle="bold" />
 
                     <LinearLayout
-                       android:id="@+id/order_layout"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content" android:layout_below="@+id/card3_t1"
-                       android:orientation="vertical" android:layout_marginTop="10dp">
+                        android:id="@+id/order_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_below="@+id/card3_t1"
+                        android:orientation="vertical" android:layout_marginTop="10dp">
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/product_list_order"
                             android:layout_width="match_parent"
@@ -224,7 +224,7 @@
                             android:visibility="visible"
                             tools:listitem="@layout/single_product_order_item" />
 
-                   </LinearLayout>
+                    </LinearLayout>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
@@ -297,32 +297,7 @@
 
         </LinearLayout>
     </ScrollView>
-    <RelativeLayout
-        android:id="@+id/order_delete"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:background="@color/red">
 
-        <TextView
-            android:id="@+id/checkout_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Hủy đơn hàng"
-            android:textColor="@color/white"
-            android:textSize="23sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/checkout_btn"
-            android:src="@drawable/ic_baseline_delete_forever_24" />
-
-    </RelativeLayout>
 
 
 </RelativeLayout>

@@ -14,6 +14,15 @@
         android:theme="@style/Theme.ShopShoes"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.BillDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.Bill.CustomerBillActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.BillActivity"
+            android:exported="false" />
+        <activity
             android:name=".Admin.statisticActivity"
             android:exported="false" />
         <activity
@@ -65,7 +74,6 @@
         <activity
             android:name=".Admin.Product.UpdateProductActivity"
             android:exported="false" />
-
         <activity
             android:name=".Admin.AdminHome"
             android:exported="false" />
