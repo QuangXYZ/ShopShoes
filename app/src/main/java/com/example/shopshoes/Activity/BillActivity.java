@@ -1,4 +1,4 @@
-package com.example.shopshoes.Admin.Oder;
+package com.example.shopshoes.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shopshoes.Adapter.OrderAdapter;
+import com.example.shopshoes.Admin.Oder.CustomerOderActivity;
 import com.example.shopshoes.Model.Order;
 import com.example.shopshoes.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,22 +24,22 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class CustomerOderActivity extends AppCompatActivity {
+public class BillActivity extends AppCompatActivity {
     private OrderAdapter mAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Order> orderArrayList;
-
+    private ArrayList<String> idUser;
     private TextView noOder;
     DatabaseReference myRootRef;
     private ProgressBar progressBar;
-
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_oder);
+        setContentView(R.layout.activity_bill);
         initAll();
-        getAdminOrders();
+
     }
 
     private void initAll() {
@@ -48,47 +49,23 @@ public class CustomerOderActivity extends AppCompatActivity {
         noOder = findViewById(R.id.no_customer_order);
         myRootRef = FirebaseDatabase.getInstance().getReference();
 
-        mAdapter = new OrderAdapter(orderArrayList, CustomerOderActivity.this, true);
+        mAdapter = new OrderAdapter(orderArrayList, BillActivity.this, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mAdapter);
+        getDataFromFirebase();
         mAdapter.notifyDataSetChanged();
-
     }
 
-    public void getAdminOrders() {
-        orderArrayList.clear();
+    public void getDataFromFirebase() {
         progressBar.setVisibility(View.VISIBLE);
-        myRootRef.child("Order").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        String id=child.getKey();
-                        getDataFromFirebase(id);
-                    }
-                } else {
-                    noOder.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                progressBar.setVisibility(View.GONE);
-            }
-        });
-
-    }
-
-    public void getDataFromFirebase(String id) {
-        progressBar.setVisibility(View.VISIBLE);
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("Order").child(id);
+        DatabaseReference databaseReference = database.getReference("Bill").child(currentUserId);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                orderArrayList.clear();
                 for (DataSnapshot post : snapshot.getChildren()){
                     Order order = post.getValue(Order.class);
                     orderArrayList.add(order);
@@ -102,7 +79,7 @@ public class CustomerOderActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 noOder.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(CustomerOderActivity.this,"Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(BillActivity.this,"Error", Toast.LENGTH_LONG).show();
             }
         });
     }

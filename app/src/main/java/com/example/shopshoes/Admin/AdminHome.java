@@ -14,6 +14,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.shopshoes.Activity.LoginActivity;
+import com.example.shopshoes.Admin.Bill.CustomerBillActivity;
 import com.example.shopshoes.Admin.Brand.NewBrandActivity;
 import com.example.shopshoes.Admin.Brand.ViewAllBrandActivity;
 import com.example.shopshoes.Admin.Category.NewCategoryActivity;
@@ -80,6 +81,10 @@ public class AdminHome extends AppCompatActivity implements NavigationView.OnNav
             startActivity(intent);
         } else if (id == R.id.nav_customer_order) {
             Intent intent = new Intent(AdminHome.this, CustomerOderActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_customer_bill) {
+            Intent intent = new Intent(AdminHome.this, CustomerBillActivity.class);
             startActivity(intent);
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout_admin);

@@ -2,6 +2,7 @@ package com.example.shopshoes.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.shopshoes.Activity.BillActivity;
+import com.example.shopshoes.Activity.BillDetailActivity;
 import com.example.shopshoes.Activity.OrderDetailActivity;
 
 import androidx.annotation.NonNull;
@@ -52,23 +55,40 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 //            }
 //        }
         holder.quality.setText("Số lượng sản phẩm "+order.getProductArrayList().size());
-        holder.name.setText("Trạng thái "+order.getStatus());
+        if (order.getStatus().equals("Đơn đã xác nhận")) holder.name.setTextColor(Color.GREEN);
+        holder.name.setText(order.getStatus());
         holder.date.setText(order.getDateOfOrder());
         holder.userId.setText("Mã Khách hàng "+order.getIdUser());
-        holder.price.setText(order.getTotalPrice()+" VND");
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isAdmin) {
-                    Intent intent = new Intent(context, CustomerOderDetailActivity.class);
-                    intent.putExtra("id", order.getId());
+                    if (order.getStatus().equals("Đơn đã xác nhận")){
+                        Intent intent = new Intent(context, BillDetailActivity.class);
+                        intent.putExtra("orderID", order.getId());
+                        intent.putExtra("order",order);
+                        intent.putExtra("isAdmin",true);
+                        intent.putExtra("idCustomer", order.getIdUser());
+                        context.startActivity(intent);
+                          }
+                    else {
+                        Intent intent = new Intent(context, CustomerOderDetailActivity.class);
+                        intent.putExtra("id", order.getId());
 //                    Log.d("showId", order.getId());
-                    intent.putExtra("order",order);
-                    intent.putExtra("idCustomer", order.getIdUser());
-                    context.startActivity(intent);
+                        intent.putExtra("order", order);
+                        intent.putExtra("idCustomer", order.getIdUser());
+                        context.startActivity(intent);
+                    }
                 }
                 else {
-                    Intent intent = new Intent(context, OrderDetailActivity.class);
+                    Intent intent;
+                    if (order.getStatus().equals("Đơn đã xác nhận")) {
+                        intent = new Intent(context, BillDetailActivity.class);
+                        intent.putExtra("isAdmin",false);
+                    }
+                    else {
+                        intent = new Intent(context, OrderDetailActivity.class);
+                    }
                     intent.putExtra("orderID", order.getId());
                     intent.putExtra("order",order);
                     context.startActivity(intent);
@@ -93,7 +113,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             name = itemView.findViewById(R.id.order_name);
             userId = itemView.findViewById(R.id.order_idCutomer);
             date = itemView.findViewById(R.id.order_date);
-            price = itemView.findViewById(R.id.order_total_price);
             quality = itemView.findViewById(R.id.order_quantity);
 
         }
