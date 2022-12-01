@@ -118,6 +118,7 @@ public class UpdateBrandActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                     }
                 });
+        finish();
         startActivity(new Intent(UpdateBrandActivity.this, ViewAllBrandActivity.class));
     }
 

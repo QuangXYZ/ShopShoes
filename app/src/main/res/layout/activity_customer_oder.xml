@@ -41,9 +41,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_oder_list"
+        android:layout_marginTop="2dp"
         android:overScrollMode="never"
         android:visibility="visible"
         tools:listitem="@layout/single_order_item" />
+
     <TextView
         android:id="@+id/no_customer_order"
         android:gravity="center"

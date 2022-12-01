@@ -15,8 +15,6 @@ public class Product implements Serializable {
         this.sold = sold;
     }
 
-
-
     public Product() {
     }
 

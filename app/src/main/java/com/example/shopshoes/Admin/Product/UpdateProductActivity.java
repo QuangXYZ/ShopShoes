@@ -425,10 +425,10 @@ public class UpdateProductActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@androidx.annotation.NonNull Task<Void> task) {
                         Toast.makeText(UpdateProductActivity.this, "Xóa thành công", LENGTH_SHORT).show();
-                        finish();
-                        startActivity(new Intent(UpdateProductActivity.this, ViewAllProductsActivity.class));
                     }
                 });
+        finish();
+        startActivity(new Intent(UpdateProductActivity.this, ViewAllProductsActivity.class));
     }
     public void getDataFromFirebase() {
         final int[] i = {0};
