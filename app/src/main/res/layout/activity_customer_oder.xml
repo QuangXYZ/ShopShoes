@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/cart_back_arrow"
             android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_height="4dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
             android:onClick="goBack"
@@ -41,9 +41,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_oder_list"
+        android:layout_marginTop="2dp"
         android:overScrollMode="never"
         android:visibility="visible"
         tools:listitem="@layout/single_order_item" />
+
     <TextView
         android:id="@+id/no_customer_order"
         android:gravity="center"

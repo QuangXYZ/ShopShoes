@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Thông tin hóa đơn"
+            android:text="Thông tin đơn hàng"
             android:textColor="@color/black"
             android:textSize="@dimen/toolbar_text_size"
             android:textStyle="bold" />
@@ -67,8 +67,8 @@
                         android:id="@+id/card1_t1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mã hóa đơn"
-                        android:textColor="#77000000"
+                        android:text="Mã đơn hàng"
+                        android:textColor="@color/black"
                         android:textSize="15sp" />
 
                     <TextView
@@ -156,7 +156,6 @@
                         android:textSize="15sp" />
 
 
-
                     <TextView
                         android:id="@+id/order_delivery"
                         android:layout_width="wrap_content"
@@ -167,6 +166,7 @@
                         android:text="10.000 VND"
                         android:textColor="#CB111111"
                         android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/card1_t8"
                         android:layout_width="wrap_content"
