@@ -83,7 +83,7 @@
                         android:id="@+id/product_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:maxLines="3"
+
                         android:text="Facial Cleanser is the best face wash for your skin"
                         android:textColor="@color/black"
                         android:textSize="16sp" />

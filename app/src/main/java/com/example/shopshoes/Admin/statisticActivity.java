@@ -102,7 +102,7 @@ public class statisticActivity extends AppCompatActivity {
     }
     public void getAdminOrders() {
         myRootRef = FirebaseDatabase.getInstance().getReference();
-        myRootRef.child("Order").addListenerForSingleValueEvent(new ValueEventListener() {
+        myRootRef.child("Bill").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -121,7 +121,7 @@ public class statisticActivity extends AppCompatActivity {
     }
     private void getDataFromFirebase(String id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("Order").child(id);
+        DatabaseReference databaseReference = database.getReference("Bill").child(id);
         databaseReference.addValueEventListener(new ValueEventListener() {
 
             @Override
