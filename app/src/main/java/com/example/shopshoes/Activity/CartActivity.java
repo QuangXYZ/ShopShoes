@@ -132,7 +132,7 @@ public class CartActivity extends AppCompatActivity {
                     cartRecyclerView.setLayoutManager(new LinearLayoutManager(CartActivity.this));
                     cartRecyclerView.setNestedScrollingEnabled(false);
                     cartRecyclerView.setAdapter(cartCustomAdapter);
-                    totalPriceView.setText(String.valueOf(order.getTotalPrice())+ " VND");
+                    totalPriceView.setText((int)order.getTotalPrice() + " VND");
                 }
 
             }

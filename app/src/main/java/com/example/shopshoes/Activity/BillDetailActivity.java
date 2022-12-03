@@ -91,7 +91,7 @@ public class BillDetailActivity extends AppCompatActivity {
                     orderstatus.setText(order.getStatus());
                     orderDate.setText(order.getDateOfOrder());
                     orderQuantity.setText(String.valueOf(order.getProductArrayList().size()));
-                    orderPrice.setText(String.valueOf(order.getTotalPrice()+10000));
+                    orderPrice.setText(String.valueOf((int)order.getTotalPrice()+10000)+" VND");
                     address.setText(order.getAddress());
                     comment.setText(order.getComments());
                 }
