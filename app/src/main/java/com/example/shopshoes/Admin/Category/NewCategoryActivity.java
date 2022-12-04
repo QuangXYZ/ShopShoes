@@ -26,7 +26,7 @@ import com.google.firebase.storage.StorageReference;
 public class NewCategoryActivity extends AppCompatActivity {
 
     private StorageReference storageRef;
-    private FirebaseFirestore db;
+    private FirebaseFirestore db;// khai báo
     private Button addBtnCategory;
     private EditText idCategory, nameCategory;
     private ProgressBar progressBar;
@@ -81,12 +81,12 @@ public class NewCategoryActivity extends AppCompatActivity {
     private void saveInfoDatabaseCategory() {
         progressBar.setVisibility(View.VISIBLE);
         String ID = idCategory.getText().toString().trim();
-        DocumentReference docIdRef = db.collection(FirebaseFireStoreConstants.CATEGORY).document(ID);
-        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        DocumentReference docIdRef = db.collection(FirebaseFireStoreConstants.CATEGORY).document(ID);// DocumentReference dùng để trỏ đến hoặc tạo một collection
+        docIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {// dùng hàm get() lấy toàn bộ document
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) { //khi hoàn thành việc get() dữ liệu nằm trong task
+                if (task.isSuccessful()){ // nếu task lấy về thành công
+                    DocumentSnapshot document = task.getResult(); // task.getResult() trả về document
                     if (document.exists()) {
                         Toast.makeText(NewCategoryActivity.this, "Thể loại đã có", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);

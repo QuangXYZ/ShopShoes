@@ -118,14 +118,14 @@ public class ViewAllCategoryActivity extends AppCompatActivity {
         reference.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            QuerySnapshot snapshot = task.getResult();
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) { // khi hoàn thành việt get dữ liệu trả về nằm trong task
+                        if (task.isSuccessful()) { //task lấy về thành công
+                            QuerySnapshot snapshot = task.getResult(); // QuerySnapshot là danh sách toàn bộ các document
                             for (QueryDocumentSnapshot document : snapshot) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
 
-                                category = document.toObject(Category.class);
-                                categoryArrayList.add(category);
+                                category = document.toObject(Category.class);// chuyển đổi document thành 1 đối tượng category
+                                categoryArrayList.add(category); //đưa vào arraylist
                                 counter[0]++;
                                 if (counter[0] == task.getResult().size()) {
                                     setData();
